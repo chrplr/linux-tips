@@ -7,7 +7,6 @@ This is a collection of Linux tips accumulated over the years. I always
 welcome suggestions to add new tips, to correct or improve existing
 ones.
 
-[TOC]
 
 The Shell
 ---------

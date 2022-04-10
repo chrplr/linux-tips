@@ -6,6 +6,14 @@
 Welcome to Chrplr's Linux tips collection
 =========================================
 
+Pdf version of this document
+  https://media.readthedocs.org/pdf/chrplr-linux-tips/latest/chrplr-linux-tips.pdf
+
+Epub version
+  https://media.readthedocs.org/epub/chrplr-linux-tips/latest/chrplr-linux-tips.epub
+
+
+
 .. toctree::
    :numbered:
    :maxdepth: 2

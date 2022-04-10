@@ -74,23 +74,21 @@ Job control
 
 -  Ctrl+Q: Resume output to the screen after stopping it with Ctrl+S.
 
-Tab completion
-~~~~~~~~~~~~~~
+Tab completion and case-insensitivity
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To enter the name of a file, you can type the first characters then
-press the ``TAB`` key to autocomplete the end of the name. Thie also
+press the ``TAB`` key to autocomplete the end of the name. This also
 work for commands or environment variables. See
-https://en.wikipedia.org/wiki/Command-line_completion?
+https://en.wikipedia.org/wiki/Command-line_completion
 
-Note that bash relies the `readline
-library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__
-to interact with the user. Its behavior can be customized by options in
-``$HOME/.inputrc``. For example, to enable case-insensitive tab
-completion:
+.. note:: 
+  bash relies the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__ 
+  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. 
+  For example, to enable case-insensitive tab completion::
 
-::
+      echo 'set completion-ignore-case On' >> ~/.inputrc
 
-   echo 'set completion-ignore-case On' >> ~/.inputrc
 
 Commands
 ~~~~~~~~

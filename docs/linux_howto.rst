@@ -94,9 +94,10 @@ Commands
 ~~~~~~~~
 
 When you type something on a command line and press ``Return``, you
-submit a command to the shell. The first token is a command anf the
-follwoing toikens are parameters or agruments. There are different types
-of commands:
+give an order to the shell. The first token is a command and the
+following tokens on the line are parameters, a.k.a. agurments. 
+
+There are different types of commands:
 
 -  programs, that is, executable file located somewhere on your file
    system (it can be a binary or a script)
@@ -104,7 +105,7 @@ of commands:
 -  user defined functions
 -  aliases
 
-Check:
+The ``type`` command tells you the category of a command.
 
 ::
 

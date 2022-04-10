@@ -295,6 +295,29 @@ computer, you can try to connect from another computer on the same
 network using ``ssh`` and to kill the applications or do a proper
 shutdown (typing ‘halt’ on the command line).
 
+
+Remote poweron and poweroff
+---------------------------
+
+Powering off is easy, just type::
+
+   shutdown
+
+If your workstation is switched off, but you can log to a linux computer on the same local area network. 
+
+If you have previously noted down the MAC address of your computer's network interface (using ``ip a`` when the computer was on),
+and authorized "Wake on lan (WOL)" in the station's BIOS parameters, you can power it on remotely.
+
+Say the MAC address is "c8:f7:50:bc:ea:f5", then the command::
+   
+    wakeonlan c8:f7:50:bc:ea:f5
+    
+launched on the terminal of another computer will power on your computer.
+
+See http://doc.ubuntu-fr.org/wakeonlan
+
+
+
 Printing
 --------
 

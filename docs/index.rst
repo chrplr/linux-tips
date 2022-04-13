@@ -22,9 +22,4 @@ Epub version
    linux_howto
 
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

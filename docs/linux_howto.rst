@@ -1,10 +1,6 @@
-Title: Linux tips and tricks Date: 2021/10/01 Modified: 2021/08/07
-Author: Christophe Pallier Category: computer-science Tags: Linux,
-howtos Slug: chrplr-linux-tips Summary: Collection of tips for
-GNU/Linux.
 
 This is a collection of Linux tips accumulated over the years. I always
-welcome suggestions to add new tips, to correct or improve existing
+welcome suggestions  to add new tips, to correct or improve existing
 ones.
 
 
@@ -1254,18 +1250,58 @@ To find and remove dangling links in a directory:
 Finding files or directories
 ----------------------------
 
-To locate files whose name matches a given pattern in their name, you
-can use the command ``fd`` or the command ``find``:
+The classic unix command to find files is, well, ``find``. 
 
-::
+We describe it below, but we first introduce a simpler and user-friendly alternatives: ``fd``.
+  
+Using the ``fd`` command
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-   fd pdf ~/Downloads/ --changed-within 1hour
+Examples of usage::
 
-find -name pattern
+   fd statement    # search for files/directories containing the string "statement" in their name
+   fd -t f statement    # restrict the search to files (not directories)
+   fd pdf ~/Downloads/ --changed-within 1hour   
 
-“Pattern” can be a string, or a glob pattern:
+You can search for filenames matching a regular expression::
 
-::
+   fd 'April.*docx$'
+
+Features of fdfind:
+
+*  Regular expression (default) and glob-based patterns
+*  Very fast due to parallelized directory traversal
+*  Uses colors to highlight different file types (same as ls)
+*  Supports parallel command executio
+*  Smart case: the search is case-insensitive by default. It switches to
+*  case-sensitive if the pattern contains an uppercase character*.
+*  Ignores hidden directories and files, by default.
+*  Ignores patterns from your .gitignore, by default.
+
+
+.. note::
+   You may need to install ``fd`` using  ``sudo apt install fd-find`` or from https://github.com/sharkdp/fd, and define ``alias fd=fdfind``. 
+
+
+Using the ``ag`` command
+~~~~~~~~~~~~~~~~~~~~
+
+Another must know user-friendly search tool is ``ag`` which allows to spot text files containing a given string or regular expression::
+   
+   ag --python "import numpy"    # search python files that import numpy
+
+.. note::
+    To install ``ag`` under Ubuntu: ``sudo apt install silversearcher-ag``.
+
+
+Using the classic unix ``find`` command
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``find`` is the classic command, which is complex but powerful. THe basic syntax is:: 
+
+    find -name pattern
+
+where ``pattern`` can be a string, or a `glob pattern <https://en.wikipedia.org/wiki/Glob_(programming)>`__ (not a regular expression)::
 
    find -iname 'filename.txt'
    find -iname '*.doc'
@@ -1343,44 +1379,6 @@ Note that ``xargs`` can be parallelized with the -P option:
 
 Consult ``info find`` and ``info xargs`` for more information.
 
-fdfind
-~~~~~~
-
-The syntax of ``find`` is somewhat complex and hard to remember.
-
-``fdfind`` is a “simple, fast and user-friendly alternative to
-``find``”.
-
-Features of fdfind:
-
--  Intuitive syntax: ``fd PATTERN`` instead of
-   ``find -iname '*PATTERN*'``.
--  Regular expression (default) and glob-based patterns.
--  Very fast due to parallelized directory traversal.
--  Uses colors to highlight different file types (same as ls).
--  Supports parallel command execution
--  Smart case: the search is case-insensitive by default. It switches to
-   case-sensitive if the pattern contains an uppercase character*.
--  Ignores hidden directories and files, by default.
--  Ignores patterns from your .gitignore, by default.
--  Regular expression (default) and glob-based patterns.
--  Very fast due to parallelized directory traversal.
--  Uses colors to highlight different file types (same as ls).
--  Supports parallel command execution
--  Smart case: the search is case-insensitive by default. It switches to
-   case-sensitive if the pattern contains an uppercase character*.
--  Ignores hidden directories and files, by default.
--  Ignores patterns from your .gitignore, by default.
-
-Under Ubuntu, install it with ``sudo apt install fd-find``
-
-::
-
-   fdfind txt    # list all filenames containing txt
-   fdfind txt$   # list all filenames ending with txt
-
-See https://github.com/sharkdp/fd for more information.
-
 locate
 ~~~~~~
 
@@ -1405,6 +1403,7 @@ Read the manual:
 ::
 
    man locate
+
 
 Search files by content
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1436,15 +1435,14 @@ To install ``ack`` under ubundu:
 
    sudo apt install ack-grep
 
-Another search tool, which I have not used but is said to be faster than
-``ack`` is ``ag`` http://conqueringthecommandline.com/book/ack_ag:
+Another search tool is ``ag`` http://conqueringthecommandline.com/book/ack_ag:
 
 ::
 
    sudo apt install silversearcher-ag
 
-Tools like ``grep`` and ``ack`` are useful to search within text files
-but pretty useless for binary files. If you want to search within
+Tools like ``grep``, ``ack`` and``ag`` are useful to search within text files
+but pretty useless for binary files. If you need to search within
 ``.pdf`` or ``.doc`` files, you first need to extract the textual
 content and then index it. Then, you will be able to search files by
 their content. To this end, you can install and use a tool like

@@ -381,6 +381,25 @@ Check out `Linux 101: Manage printers and
 printing <https://developer.ibm.com/tutorials/l-lpic1-108-4/>`__ for
 more information.
 
+Encrypt/Decrypt files using GPG
+-------------------------------
+
+To use a one-time password:
+
+To encrypt ``file.txt``::
+  
+    gpg --symmetric file.txt   # this will create file.txt.gpg
+    rm file.txt                # do not forget to remove the unencrypted file
+
+
+To decrypt it::
+
+    gpg -o file.txt --decrypt file.txt.gpg
+    
+Note that it is also possible to use gpg to generate a private/public key pair to sign documents (see https://tutonics.com/2012/11/gpg-encryption-guide-part-1.html )
+
+
+
 Configure Multiple Displays
 ---------------------------
 
@@ -455,13 +474,13 @@ so:
    ssh-keygen
 
 This generates, among other files, a public key stored in a file
-``~/.ssh/identity.pub``). You now need to copy this key in the
-``authorized_keys`` file inside the ``~/.ssh`` directory of the remote
-computer you want to connect to.
+``~/.ssh/id_rsa.pub``). You now need to copy this key in the
+file ``~/.ssh/authorized_keys`` on the remote
+computer you want to connect to. This can be done with:
 
 ::
 
-   ssh-copy-id  remotecomputer
+   ssh-copy-id  login@remotecomputer
 
 If you have let an empty passphrase, you can know use ssh or scp without
 entering your password. But so can do anyone who access your account on
@@ -486,6 +505,11 @@ Executing commands on a remote computer, without login
 ::
 
    ssh login@computername command
+
+
+Beware the ``~/.bashrc`` script on the remote computer will *not* be executed because ssh launches a non-interactive, non-login shell. Thus the remote ``PATH`` may not be what you expect!
+(solution: set the ``PATH`` in ``.profile``, not ``.bashrc``)
+
 
 Keeping a remote session alive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -520,6 +544,15 @@ Copy files to or from a remote computer
 
    tar  -cf - dir | ssh login@remotehost tar -xvf -
 
+
+Mounting a remote folder with sshfs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+   
+   sshfs login@remotecomputer:path local_path
+
+   
 Setting up X11 forwarding with ssh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -541,18 +574,18 @@ On the server side, ``X11Forwarding yes`` must be specified in
 distributions turn it on in their default ``/etc/ssh/sshd_config``), and
 that the user cannot override this setting.
 
-The xauth program must be installed on the server side. If there are any
-X11 programs there, it’s very likely that xauth will be there. In the
-unlikely case xauth was installed in a nonstandard location, it can be
-called through ~/.ssh/rc (on the server!).
+The ``xauth`` program must be installed on the server side. If there are any
+X11 programs there, it’s very likely that ``xauth`` will be there. In the
+unlikely case ``xauth`` was installed in a nonstandard location, it can be
+called through ``~/.ssh/rc`` (on the server!).
 
 Note that you do not need to set any environment variables on the
-server. DISPLAY and XAUTHORITY will automatically be set to their proper
-values. If you run ssh and DISPLAY is not set, it means ssh is not
+server. ``DISPLAY`` and ``XAUTHORITY`` will automatically be set to their proper
+values. If you run ``ssh`` and ``DISPLAY`` is not set, it means ``ssh`` is not
 forwarding the X11 connection.
 
-To confirm that ssh is forwarding X11, check for a line containing
-Requesting X11 forwarding in the ssh -v -X output. Note that the server
+To confirm that ``ssh`` is forwarding X11, check for a line containing
+Requesting X11 forwarding in the ``ssh -v -X output``. Note that the server
 won’t reply either way, a security precaution of hiding details from
 potential attackers.
 
@@ -577,12 +610,14 @@ or
 What is my public IP address?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+To know your public address on the Internet:
+
 ::
 
    sudo apt install curl
    curl ifconfig.me
 
-To know your IP address on the local area network:
+To know your IP address *on the local area network*:
 
 ::
 
@@ -802,7 +837,14 @@ Large ``TX-ERR`` or ``RX-ERR`` indicate a problem.
 Benchmark disk IO performance:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+You can simply use `hdparm` and `dd`::
+
+   sudo hdparm -tv /dev/sdc1  # read test
+   dd if=/dev/zero of=/disk/temp oflag=direct bs=128k count=1G  # write test 
+
+(See  https://linuxconfig.org/how-to-benchmark-disk-performance-on-linux)
+
+For a more detailed analysis, install and run  `fio`::
 
    man fio
 
@@ -812,6 +854,8 @@ Benchmark disk IO performance:
 
 (from
 https://askubuntu.com/questions/87035/how-to-check-hard-disk-performance)
+
+
 
 Benchmark 3D video performace
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1558,8 +1602,43 @@ Aspiring pages from web sites
 
    curl  address
 
-Nice ftp programs
-~~~~~~~~~~~~~~~~~
+Transfering files accross computers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+rsync
+^^^^^
+
+To send ``folder`` to a remote host:
+
+    rsync -azv folder username@hostname:path
+
+
+To reverse the direction of transfer, simply swith the two arguments.
+
+An interesting option is ``--delete`` which makes the remote a mirror of the local.
+
+
+
+netcat
+^^^^^^
+
+See  https://tutonics.com/2012/05/netcat-basics.html
+
+
+scp
+^^^
+
+Copy remote folder locally::
+  
+   scp -r username@hostname:path_to_folder .
+
+Send local folder to remote host::
+
+   scp -r folder username@hostname:path
+   
+FTP
+^^^
 
 If you need to transfer files using the ftp protocol, you can use the
 following clients
@@ -1569,6 +1648,8 @@ following clients
    ncftp
    lftp
 
+Transfer fil
+   
 Git
 ---
 

@@ -1,7 +1,7 @@
 
-This is a collection of Linux tips accumulated over the years. I always
-welcome suggestions  to add new tips, to correct or improve existing
-ones.
+This is a collection of Linux tips accumulated over the years.
+
+Even if you are are a seasoned Linux user, you may still learn one thing or two. For example, do you know how to make bash unsensitive to filename case during TAB completion? Create bookmarks for directories so that you can jump (cd) directly into them? List all bash functions defined in the current environment? Parallelize ``xargs``? Rename files using bash variable substitution? Search files that have been modified in the last 2 weeksusing ``fd``? Encrypt a file on the command line with ``gpg``? Wake up a remote computer which is powered off? Read on.
 
 
 The Shell
@@ -31,7 +31,7 @@ William Shott, or any of the following tutorials:
 -  `Classic Shell Scripting
    book <https://doc.lagout.org/operating%20system%20/linux/Classic%20Shell%20Scripting.pdf>`__
 
-some useful shortcuts
+Some useful shortcuts
 ~~~~~~~~~~~~~~~~~~~~~
 
 Editing the current command line
@@ -39,11 +39,12 @@ Editing the current command line
 
 -  Ctrl-d : delete character under the cursor
 -  Ctrl-k : delete everything from the cursor till the end of the line
+-  Ctrl-u : delete the entire line
 -  Alt-d : delete till the end of the current word
 -  Ctrl-a : move the cursor to the beginning of the line
 -  Ctrl-e : move the cursor to the end of the line
--  Ctrl-B, Alt-B: move backward, by one char or by one word
--  Ctrl-F, Alt-F: move forward, by one char or by one word
+-  Ctrl-b, Alt-b: move backward, by one char or by one word
+-  Ctrl-f, Alt-f: move forward, by one char or by one word
 
 Navigating the history of command lines:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -55,33 +56,31 @@ Navigating the history of command lines:
 Job control
 ^^^^^^^^^^^
 
--  Ctrl-C: Terminate (kill) the running job
+-  Ctrl-c: Terminate (kill) the running job
 
--  Ctrl-Z: Stop the running job (you can then put in background with
+-  Ctrl-z: Stop the running job (you can then put in background with
    ``bg``)
 
--  Ctrl-D: Terminate the Shell and close the Terminal
+-  Ctrl-d: Terminate the Shell and close the Terminal
 
--  Ctrl-L: Clear the terminal
+-  Ctrl-l: Clear the terminal
 
--  Ctrl+S: Stop all output to the screen. This is particularly useful
+-  Ctrl+s: Stop all output to the screen. This is particularly useful
    when running commands with a lot of long, verbose output, but you
    don’t want to stop the command itself with Ctrl+C.
 
--  Ctrl+Q: Resume output to the screen after stopping it with Ctrl+S.
+-  Ctrl+q: Resume output to the screen after stopping it with Ctrl+S.
 
 Tab completion and case-insensitivity
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To enter the name of a file, you can type the first characters then
 press the ``TAB`` key to autocomplete the end of the name. This also
-work for commands or environment variables. See
-https://en.wikipedia.org/wiki/Command-line_completion
+work for commands or environment variables. 
 
 .. note:: 
   bash relies the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__ 
-  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. 
-  For example, to enable case-insensitive tab completion::
+  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab completion::
 
       echo 'set completion-ignore-case On' >> ~/.inputrc
 
@@ -95,30 +94,33 @@ following tokens on the line are parameters, a.k.a. agurments.
 
 There are different types of commands:
 
--  programs, that is, executable file located somewhere on your file
-   system (it can be a binary or a script)
--  shell built-in functions (e.g. ``echo``)
--  user defined functions
--  aliases
+-  *shell builtins*  (e.g. ``echo``)
+-  *user-defined functions*
+-  *aliases*
+-  *programs* (scripts of exectable binary), that is, executable files located somewhere on your file system 
 
 The ``type`` command tells you the category of a command.
 
 ::
 
-   type cp
-   type ll
-   type echo
-   type for
+   type echo  # shell buitin
+   help echo
+
+   type ll  # alias (typically defined in most linuxes)
+      
+   type cp    # program
+   cp --help
+
 
 The vast majority of commands that you are going to type are programs
-(scripts or binary). The list of directories containing programs is
+(scripts or binary executables). The list of directories containing programs is
 stored in the environment variable ``PATH``:
 
 ::
 
    printenv PATH
 
-Directories are separated by ``:``.
+Directory names are separated by the character ``:``.
 
 If you want to add a directory, say ``/opt/bin`` to the PATH:
 
@@ -190,35 +192,45 @@ Startup scripts: .profile, .bashrc, .bash_profile
 
 ``~/.bash_profile``, ``~/.profile``, ``.bashrc`` are scripts that are
 executed automatically when you start a shell. This allows you to set up
-your envirement (prompt, PATH), create aliases for common operations, …
+your environment (e.g. the PATH, the Prompt, create aliases for common operations, ...)
 
-There are two types of shells: login shells (that open after you type
-your login and password) and nonlogin shells.
+There are four types of shells:
+
+- login shells and non-login shells.
+
+- interactive and non-interactive shells 
+
+If you connect to a remote computer with ``ssh remote``, you get an *interactive login* shell.
+
+If you execute a command on a remote computer with ``ssh remote command``, the script or the command is executed in a *login non-interactive* shell.
+
+If you are already log in, that is, you have open a session, and open a new terminal, you get an *interactive non-login* shell.
+
+If you execute a bash script,  it is launched in a *non-interactive, non-login* shell.
+
 
 Login shells execute ``~/.profile`` and ``~/.bash_profile``.
 
 Non-login shells only execute ``~/.bashrc``, not ``~/.profile`` nor
 ``~/.bash_profile``
 
-Anything that should be available to graphical applications OR to sh (or
-bash invoked as sh) MUST be in ``~/.profile``
+Anything that should be available to graphical applications OR to ``sh`` (or
+``bash`` invoked as ``sh``) MUST be in ``~/.profile``, not ``.bashrc`` (If you launch a graphical application not from the terminal, it only knows about the environment that was created at login. In particular, it will not know about stuff in ``.bashrc``)
+.
 
--  ``~/.bash_profile``\ should just load .profile and .bashrc (in that
-   order)
--  ``~/.profile`` has the stuff NOT specifically related to bash, such
+- ``~/.profile`` has the stuff NOT specifically related to bash, such
    as environment variables (PATH and friends)
--  ``~/.bashrc`` has anything you’d want at an interactive command line.
-   Command prompt, EDITOR variable, bash aliases
+- Anything that should be available only to login shells should go in ``~/.profile``
+- ``~/.bashrc`` has anything you’d want at an interactive command line (Command prompt, EDITOR variable, bash aliases)
+- ``~/.bashrc`` must not print anything on the terminal. This could screw up sftp for example.
+- ``~/.bash_profile`` should just load .profile and .bashrc (in that order)
+- Make sure that ``~/.bash_login`` does *not* exist.
 
-A few other notes: \* ``~/.bashrc`` must not output anything \* Anything
-that should be available only to login shells should go in
-``~/.profile`` \* Ensure that ``~/.bash_login`` does not exist.
+See:
 
-See: \*
-https://superuser.com/questions/789448/choosing-between-bashrc-profile-bash-profile-etc
-\*
-https://stackoverflow.com/questions/902946/about-bash-profile-bashrc-and-where-should-alias-be-written-in
-\* http://mywiki.wooledge.org/DotFiles
+* https://superuser.com/questions/789448/choosing-between-bashrc-profile-bash-profile-etc
+* https://stackoverflow.com/questions/902946/about-bash-profile-bashrc-and-where-should-alias-be-written-in
+* http://mywiki.wooledge.org/DotFiles
 
 Jumping directly to directories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1328,7 +1340,7 @@ Features of fdfind:
 
 
 Using the ``ag`` command
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Another must know user-friendly search tool is ``ag`` which allows to spot text files containing a given string or regular expression::
    

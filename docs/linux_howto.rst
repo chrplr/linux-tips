@@ -1,7 +1,9 @@
 
 This is a collection of Linux tips accumulated over the years.
 
-Even if you are are a seasoned Linux user, you may still learn one thing or two. For example, do you know how to make bash unsensitive to filename case during TAB completion? Create bookmarks for directories so that you can jump (cd) directly into them? List all bash functions defined in the current environment? Parallelize ``xargs``? Rename files using bash variable substitution? Search files that have been modified in the last 2 weeksusing ``fd``? Encrypt a file on the command line with ``gpg``? Wake up a remote computer which is powered off? Read on.
+Even if you are are a seasoned Linux user, you may still learn one thing or two. For example, do you know how to make bash unsensitive to filename case during TAB completion? Create bookmarks for directories so that you can jump (cd) directly into them? List all bash functions defined in the current environment? Parallelize ``xargs``? Rename files using bash variable substitution? Search files that have been modified in the last 2 weeks? Encrypt a file on the command line with ``gpg``? Wake up a remote computer which is powered off? Read on.
+
+
 
 
 The Shell
@@ -94,11 +96,11 @@ following tokens on the line are parameters, a.k.a. agurments.
 
 There are different types of commands:
 
--  *shell builtins*  (e.g. ``echo``)
+-  *shell builtins*
 -  *user-defined functions*
 -  *aliases*
 -  *programs* (scripts of exectable binary), that is, executable files located somewhere on your file system 
-
+   
 The ``type`` command tells you the category of a command.
 
 ::
@@ -108,9 +110,11 @@ The ``type`` command tells you the category of a command.
 
    type ll  # alias (typically defined in most linuxes)
       
-   type cp    # program
+   type cp    # executable
    cp --help
 
+   declare -F # list all functions
+   
 
 The vast majority of commands that you are going to type are programs
 (scripts or binary executables). The list of directories containing programs is
@@ -118,11 +122,11 @@ stored in the environment variable ``PATH``:
 
 ::
 
-   printenv PATH
+   echo $PATH
 
-Directory names are separated by the character ``:``.
+Note that directory names are separated by the character ``:``.
 
-If you want to add a directory, say ``/opt/bin`` to the PATH:
+If you want to add a directory, say ``/opt/bin``, to the PATH:
 
 ::
 
@@ -148,6 +152,7 @@ In this situation, the best is to close the shell (by pressing
 If you want a modification of the ``PATH`` variable to be permanent,
 i.e. to be active each time you start a shell, add the
 ``export PATH=...`` line to the file ``~/.profile``.
+
 
 Creating scripts
 ~~~~~~~~~~~~~~~~
@@ -232,6 +237,8 @@ See:
 * https://stackoverflow.com/questions/902946/about-bash-profile-bashrc-and-where-should-alias-be-written-in
 * http://mywiki.wooledge.org/DotFiles
 
+
+  
 Jumping directly to directories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -262,6 +269,15 @@ the available operations:
    sl -l                  long list
    sl -p                  path list
 
+Opening a file from the command line
+------------------------------------
+
+::
+   
+   xdg-open file
+
+
+   
 Killing a program that is no longer responsive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -725,6 +741,10 @@ Getting detailed information about your system
 
 ::
 
+   neofetch
+
+::
+   
    sudo inxi -b
    nvidia-smi  # if you have nvidia GPUs
 
@@ -749,6 +769,7 @@ Which Linux distribution is running:
    inxi -b
    lsb_release -a
 
+
 Note: you may need to install the packages ``inxi`` and ``lsb-core``:
 
 ::
@@ -762,6 +783,8 @@ Which version of the linux kernel is running:
 ::
 
    uname -a
+   
+   
 
 To display detailed hardware information:
 
@@ -845,6 +868,24 @@ Or the general network performance:
    netstat -i 10
 
 Large ``TX-ERR`` or ``RX-ERR`` indicate a problem.
+
+
+Check open listening ports
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+   
+   sudo netstat -tulpn
+
+
+List all running services
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+   systemctl -l -t service | less
+
+   
 
 Benchmark disk IO performance:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

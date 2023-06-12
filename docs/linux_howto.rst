@@ -1476,30 +1476,34 @@ Note that ``xargs`` can be parallelized with the -P option:
 
 Consult ``info find`` and ``info xargs`` for more information.
 
-locate
-~~~~~~
+plocate
+~~~~~~~
+
 
 To accelerate file search, you can generate a database of all filenames
-on your filesystem:
+on your filesystem::
 
-::
+First of all, make sure you have installed ``plocate``::
 
-   updatedb
+    sudo apt install plocate
+    sudo updatedb
 
-And then use the command
 
-::
+Enable an automatic update of the database::
 
-   locate PATTERN
+    sudo systemctl enable plocate-updatedb.timer
+    sudo systemctl start plocate-updatedb.timer
 
-Note that the locate will return all files where PATTERN matches any
+And then use the command::
+
+   plocate PATTERN
+
+Note that the plocate will return all files where PATTERN matches any
 substring in the full pathname (including directories).
 
-Read the manual:
+Read the manual::
 
-::
-
-   man locate
+   man plocate
 
 
 Search files by content

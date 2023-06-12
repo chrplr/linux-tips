@@ -99,7 +99,7 @@ There are different types of commands:
 -  *shell builtins*
 -  *user-defined functions*
 -  *aliases*
--  *programs* (scripts of exectable binary), that is, executable files located somewhere on your file system 
+-  *programs* (scripts or binary executable files), that is, executable files located somewhere on your file system. 
    
 The ``type`` command tells you the category of a command.
 

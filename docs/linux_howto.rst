@@ -449,14 +449,13 @@ A secure method to connect to a remote computer:
 
    ssh computername
 
-or
+or, if your login id on the remote computer is different than the one on the
+local computer.
 
 ::
 
    ssh login@computername
 
-if the login id on the remote computer is different than the one on the
-local computer.
 
 If you plan to launch graphical application on the remote computer, you
 need to add the ``-X`` option:
@@ -465,7 +464,7 @@ need to add the ``-X`` option:
 
    ssh -X login@computername
 
-Note: you may have to run ``xhost +`` on the local, client, computer.
+Note: you may need to run ``xhost +`` on the local (client) computer.
 
 If you often connect to a computer, you can create an alias in
 ``$HOME/.profile``:
@@ -510,9 +509,7 @@ computer you want to connect to. This can be done with:
 
    ssh-copy-id  login@remotecomputer
 
-If you have let an empty passphrase, you can know use ssh or scp without
-entering your password. But so can do anyone who access your account on
-your local computer.
+If you have left the passphrase empty, you can know use ``ssh`` or ``scp`` without entering your password. But so can do anyone who has access to your account on the local computer.
 
 So you may prefer to use a passphrase. To avoid having to type it each
 time you log to the remote computer, copy the following lines in your

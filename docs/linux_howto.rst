@@ -87,6 +87,16 @@ work for commands or environment variables.
       echo 'set completion-ignore-case On' >> ~/.inputrc
 
 
+cd history
+~~~~~~~~~~
+
+One often needs to cd to small subset of directories. 
+
+* cdhist  keeps a history of the recently visited directories:  https://github.com/bulletmark/cdhist
+
+* dirb: a system to bookmark folders  http://www.dirb.info/
+
+
 Commands
 ~~~~~~~~
 
@@ -1469,7 +1479,7 @@ Note that ``xargs`` can be parallelized with the -P option:
 
 ::
 
-   find -name '*.nii' -o '*.img' -print0 | xargs -0 -P 10 gzip  # gzip all image files
+    find -name '*.nii' -o '*.img' -print0 | xargs -0 -P 10 gzip  # gzip all image files
 
 Consult ``info find`` and ``info xargs`` for more information.
 
@@ -1480,10 +1490,10 @@ plocate
 To accelerate file search, you can generate a database of all filenames
 on your filesystem::
 
-First of all, make sure you have installed ``plocate``::
+First of all, make sure you have installed ``plocate`` ::
 
-    sudo apt install plocate
-    sudo updatedb
+   sudo apt install plocate
+   sudo updatedb
 
 
 Enable an automatic update of the database::
@@ -1826,8 +1836,12 @@ Generating passwords
 
 ::
 
-       pwgen
+       pwgen 10 --symbols
 
+generates a 10 character long password with at least one special character
+       
+Run it online at https://pwgen.io/en/
+       
 Graphics
 --------
 

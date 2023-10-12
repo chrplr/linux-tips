@@ -1,9 +1,6 @@
-
 This is a collection of Linux tips accumulated over the years.
 
 Even if you are are a seasoned Linux user, you may still learn one thing or two. For example, do you know how to make bash unsensitive to filename case during TAB completion? Create bookmarks for directories so that you can jump (cd) directly into them? List all bash functions defined in the current environment? Parallelize ``xargs``? Rename files using bash variable substitution? Search files that have been modified in the last 2 weeks? Encrypt a file on the command line with ``gpg``? Wake up a remote computer which is powered off? Read on.
-
-
 
 
 The Shell
@@ -85,16 +82,6 @@ work for commands or environment variables.
   to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab completion::
 
       echo 'set completion-ignore-case On' >> ~/.inputrc
-
-
-cd history
-~~~~~~~~~~
-
-One often needs to cd to small subset of directories. 
-
-* cdhist  keeps a history of the recently visited directories:  https://github.com/bulletmark/cdhist
-
-* dirb: a system to bookmark folders  http://www.dirb.info/
 
 
 Commands
@@ -249,12 +236,12 @@ See:
 
 
   
-Jumping directly to directories
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jump directly to directories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are tired of typing intermediate directory names when changing
-directory, check out the *Directory Bookmarks functions for bash* at
-https://github.com/icyfork/dirb/.
+directory, check out the *Directory Bookmarks functions for bash* described in 
+this `linux journal article about dirb <https://www.linuxjournal.com/article/10585>`_.
 
 Download https://raw.githubusercontent.com/icyfork/dirb/master/dirb.sh
 in your ``$HOME`` folder and add the following line to the file
@@ -279,17 +266,29 @@ the available operations:
    sl -l                  long list
    sl -p                  path list
 
-Opening a file from the command line
-------------------------------------
+
+Another possibility is to use `cdhist <https://github.com/bulletmark/cdhist>`_, a tool that replaces the ``cd`` command
+ by a version that keeps a history of the recently visited directories accessible with ``cd --``. To install it::
+
+    pipx install cdhist
+
+Then add the following lines to ``~/.bashrc``::
+
+    if type cdhist &>/dev/null; then
+        . <(cdhist -i)
+    fi
+
+
+Open a file from the command line
+---------------------------------
 
 ::
    
    xdg-open file
 
-
    
-Killing a program that is no longer responsive
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kill a program that is no longer responsive
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It may happen that a program monopolizes most of the CPU, but does not
 longer respond to input. Such a program is crashed and should be
@@ -305,7 +304,7 @@ window but refusing to close, open a terminal and type:
    pkill program_name
 
 You can also use the command ``ps -ef`` to locate the application and
-note down the “process identification number” in the ‘PID’ column. Then,
+note down the “process identification number” in the ``PID`` column. Then,
 type:
 
 ::
@@ -331,14 +330,14 @@ network using ``ssh`` and to kill the applications or do a proper
 shutdown (typing ‘halt’ on the command line).
 
 
-Remote poweron and poweroff
----------------------------
+Remote power on/off
+-------------------
 
 Powering off is easy, just type::
 
    shutdown
 
-If your workstation is switched off, but you can log to a linux computer on the same local area network. 
+If your workstation is switched off, but you can log to a linux computer on the same local area network, you might be able to power it on. 
 
 If you have previously noted down the MAC address of your computer's network interface (using ``ip a`` when the computer was on),
 and authorized "Wake on lan (WOL)" in the station's BIOS parameters, you can power it on remotely.
@@ -450,8 +449,8 @@ Use the programs ``xranrd`` and ``arandr``
 
 If you have a nvidia graphics card, you can also use ``nvidia-settings``
 
-Connecting to a remote computer using ssh
------------------------------------------
+Connect to a remote computer using ssh
+--------------------------------------
 
 A secure method to connect to a remote computer:
 
@@ -496,8 +495,8 @@ You can troubleshoot connection issues with
 
    ssh -vv login@computer
 
-Setting up SSH
-~~~~~~~~~~~~~~
+Set up SSH
+~~~~~~~~~~
 
 To avoid having to type your login password each time you use ssh or
 scp, you can setup SSH to use public and private keys to perform the
@@ -534,8 +533,8 @@ You will be prompted for the passphrase only once: when you login on the
 local computer (See the explanations about ``ssh-agent`` at
 http://mah.everybody.org/docs/ssh).
 
-Executing commands on a remote computer, without login
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Execute commands on a remote computer, without login
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -546,8 +545,8 @@ Beware the ``~/.bashrc`` script on the remote computer will *not* be executed be
 (solution: set the ``PATH`` in ``.profile``, not ``.bashrc``)
 
 
-Keeping a remote session alive
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Keep a remote session alive
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once connected on the remote computer, execute:
 
@@ -580,16 +579,16 @@ Copy files to or from a remote computer
    tar  -cf - dir | ssh login@remotehost tar -xvf -
 
 
-Mounting a remote folder with sshfs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mount a remote folder with sshfs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
    
    sshfs login@remotecomputer:path local_path
 
    
-Setting up X11 forwarding with ssh
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set up X11 forwarding with ssh
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To allow graphical applications running on the server to display their
 windows on the local computer, when using ssh:
@@ -624,8 +623,8 @@ Requesting X11 forwarding in the ``ssh -v -X output``. Note that the server
 won’t reply either way, a security precaution of hiding details from
 potential attackers.
 
-Getting information about the system
-------------------------------------
+Get information about the system
+--------------------------------
 
 Which computer am I currently working on?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -689,8 +688,8 @@ on your account, you can check how much is available:
 
    quota -s
 
-Listing available disk partitions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List available disk partitions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -732,8 +731,8 @@ https://livebook.manning.com/book/linux-in-action/chapter-13/74)
 You may have to install it with ``pip install glances`` or
 ``sudo apt install glances``.
 
-Finds the process owning a file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Find the process that owns a file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes, it can useful to find the process that owns an open file:
 
@@ -743,8 +742,8 @@ Sometimes, it can useful to find the process that owns an open file:
 
 (See http://www.thegeekstuff.com/2012/08/lsof-command-examples/)
 
-Getting detailed information about your system
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get detailed information about your system
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -801,8 +800,8 @@ To display detailed hardware information:
    hwinfo --short
    lspci
 
-Monitoring temperatures
-~~~~~~~~~~~~~~~~~~~~~~~
+Monitor temperatures
+~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -818,8 +817,8 @@ temperatures:
    sudo apt install psensor
    psensor
 
-Monitoring the performance of your computer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Monitor the performance of your computer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can monitor your system with ``glances``:
 
@@ -1054,6 +1053,18 @@ To change your password on the local system:
 
    passwd
 
+Generate passwords
+------------------
+
+::
+
+       pwgen 10 --symbols
+
+generates a 10 character long password with at least one special character
+       
+Run it online at https://pwgen.io/en/
+
+
 Change the login shell
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1081,8 +1092,8 @@ To modify the group of already existing files in directory ``dir``:
 
    chgrp -R group dir
 
-Changing you UserID number
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Change you UserID number
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Each login is associated to a number called the ``UID``. If for any
 reason you need to change your UID number, here is how to do it:
@@ -1130,8 +1141,8 @@ To change the current working directory:
 Note that you can always go back to your home directory by just typing
 ``cd`` (without argument).
 
-Listing files and subdirectories
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List files and subdirectories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -1177,8 +1188,8 @@ To only display subdirectories:
    tree -d       # Recursively
    tree -d -L 2   # limit depth to 2
 
-Copying, renaming, moving or deleting files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Copy, rename, move or delete files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To copy a file inside the same directory, giving it name2:
 
@@ -1229,8 +1240,8 @@ To avoid being asked for confirmation:
 
    rm -f file
 
-Creating, copying, moving or deleting directories
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create, copy, move or delete directories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a new directory:
 
@@ -1272,8 +1283,8 @@ To delete the directory ``dir`` and all its content:
 
    rm -rf dir
 
-Renaming files, replacing their name by their creation date
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Rename files, replacing their name by their creation date
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Here is a script that replaces filenames by creation date (this can be
 useful for a photo album)
@@ -1323,8 +1334,8 @@ directories. The chmod command will not work: you must then use the
 ``getfacl`` and ``setfacl`` commands to list or modify the access/write
 rigths
 
-Linking files
-~~~~~~~~~~~~~
+Links
+~~~~~
 
 To avoid copying a file in several places on the same disk, it is a
 better idea to use a *hard link*:
@@ -1351,8 +1362,8 @@ To find and remove dangling links in a directory:
 
    symlinks -rd directory
 
-Finding files or directories
-----------------------------
+Find files or directories
+-------------------------
 
 The classic unix command to find files is, well, ``find``. 
 
@@ -1488,9 +1499,7 @@ plocate
 
 
 To accelerate file search, you can generate a database of all filenames
-on your filesystem::
-
-First of all, make sure you have installed ``plocate`` ::
+on your filesystem. First of all, make sure you have installed ``plocate``::
 
    sudo apt install plocate
    sudo updatedb
@@ -1557,11 +1566,11 @@ their content. To this end, you can install and use a tool like
 ``recoll`` (see http://www.lesbonscomptes.com/recoll/). One issue though
 it that the index can quickly grow very large.
 
-Comparing files or directories
-------------------------------
+Compare files or directories
+----------------------------
 
-Comparing two files
-~~~~~~~~~~~~~~~~~~~
+Compare two files
+~~~~~~~~~~~~~~~~~
 
 To list all the lines that differ between file1 and file2:
 
@@ -1618,8 +1627,8 @@ use:
 
      rsync --dry-run --recursive --size-only -i  source/ target/
 
-Synchronizing two directories bidirectionaly
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Synchronize two directories bidirectionaly
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -1656,8 +1665,8 @@ http://backintime.readthedocs.io.
 Web
 ---
 
-Aspiring pages from web sites
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Aspire pages from web sites
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -1666,8 +1675,8 @@ Aspiring pages from web sites
 
    curl  address
 
-Transfering files accross computers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Transfere files betwee computers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 rsync
@@ -1831,16 +1840,6 @@ Shutdown
 
    systemctl poweroff
 
-Generating passwords
---------------------
-
-::
-
-       pwgen 10 --symbols
-
-generates a 10 character long password with at least one special character
-       
-Run it online at https://pwgen.io/en/
        
 Graphics
 --------

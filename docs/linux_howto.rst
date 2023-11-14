@@ -84,6 +84,64 @@ work for commands or environment variables.
       echo 'set completion-ignore-case On' >> ~/.inputrc
 
 
+Jump directly to directories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DirB: Directory Bookmarks
+*************************
+
+If you are tired of typing intermediate directory names when changing
+directory, check out the *Directory Bookmarks functions for bash* described in 
+this `linux journal article about dirb <https://www.linuxjournal.com/article/10585>`_.
+
+Download https://raw.githubusercontent.com/icyfork/dirb/master/dirb.sh
+in your ``$HOME`` folder and add the following line to the file
+``$HOME/.bashrc``:
+
+::
+
+   source $HOME/dirb.sh
+
+Once installed, you can save bookmarks for specific directories (command
+``s``) and later jump into them directly (command ``g``). Here are all
+the available operations:
+
+::
+
+   s       Save a directory bookmark
+   g       go to a bookmark or named directory
+   p       push a bookmark/directory onto the dir stack
+   r       remove saved bookmark
+   d       display bookmarked directory path
+   sl      print the list of directory bookmarks
+   sl -l                  long list
+   sl -p                  path list
+
+
+cdhist: cd history
+******************
+
+Another possibility is to use `cdhist <https://github.com/bulletmark/cdhist>`_, a tool that replaces the ``cd`` command
+ by a new version that, when you type ``cd --``, list the recently visited directories and let you select one. It is a python script, therefoere, to install it, 
+ you need to type::
+
+    pipx install cdhist
+
+And add the following lines to ``~/.bashrc``::
+
+    if type cdhist &>/dev/null; then
+        . <(cdhist -i)
+    fi
+
+
+Open a file from the command line
+---------------------------------
+
+::
+   
+   xdg-open file
+
+
 Commands
 ~~~~~~~~
 
@@ -236,55 +294,6 @@ See:
 
 
   
-Jump directly to directories
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you are tired of typing intermediate directory names when changing
-directory, check out the *Directory Bookmarks functions for bash* described in 
-this `linux journal article about dirb <https://www.linuxjournal.com/article/10585>`_.
-
-Download https://raw.githubusercontent.com/icyfork/dirb/master/dirb.sh
-in your ``$HOME`` folder and add the following line to the file
-``$HOME/.bashrc``:
-
-::
-
-   source $HOME/dirb.sh
-
-Once installed, you can save bookmarks for specific directories (command
-``s``) and later jump into them directly (command ``g``). Here are all
-the available operations:
-
-::
-
-   s       Save a directory bookmark
-   g       go to a bookmark or named directory
-   p       push a bookmark/directory onto the dir stack
-   r       remove saved bookmark
-   d       display bookmarked directory path
-   sl      print the list of directory bookmarks
-   sl -l                  long list
-   sl -p                  path list
-
-
-Another possibility is to use `cdhist <https://github.com/bulletmark/cdhist>`_, a tool that replaces the ``cd`` command
- by a version that keeps a history of the recently visited directories accessible with ``cd --``. To install it::
-
-    pipx install cdhist
-
-Then add the following lines to ``~/.bashrc``::
-
-    if type cdhist &>/dev/null; then
-        . <(cdhist -i)
-    fi
-
-
-Open a file from the command line
----------------------------------
-
-::
-   
-   xdg-open file
 
    
 Kill a program that is no longer responsive
@@ -475,12 +484,32 @@ need to add the ``-X`` option:
 
 Note: you may need to run ``xhost +`` on the local (client) computer.
 
-If you often connect to a computer, you can create an alias in
-``$HOME/.profile``:
+If you often connect to a computer, you can create an entry in ``$HOME/.ssh/config``::
 
 ::
 
-   alias ssh-myserver="ssh -X login@computername"
+   Host myserver
+       Hostname gozilla.example.com
+       User mickey
+
+Then you will have just to type ``ssh myserver`` to log in.
+
+To have TAB completion on server names contained in ``.ssh/config`` , create a file ``/etc/bash_completion.d/ssh`` with the following content::
+   
+   _ssh() 
+   {
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts=$(grep '^Host' ~/.ssh/config ~/.ssh/config.d/* 2>/dev/null | grep -v '[?*]' | cut -d ' ' -f 2-)
+
+    COMPREPLY=( $(compgen -W "$opts" -- ${cur}) )
+    return 0 
+   }
+   complete -F _ssh ssh
+
+
 
 Note that:
 

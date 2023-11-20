@@ -133,6 +133,18 @@ And add the following lines to ``~/.bashrc``::
         . <(cdhist -i)
     fi
 
+find files interactively
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install the fuzzy file finder ``fzf``
+
+    sudo apt install fzf
+
+Then, the command ``fzf`` will let you explore the files in the working directory interactively
+
+Later, we describe tools to find files (find, fdfind, grep, ack, ag).
+
+
 
 Open a file from the command line
 ---------------------------------

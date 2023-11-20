@@ -3,72 +3,8 @@ This is a collection of Linux tips accumulated over the years.
 Even if you are are a seasoned Linux user, you may still learn one thing or two. For example, do you know how to make bash unsensitive to filename case during TAB completion? Create bookmarks for directories so that you can jump (cd) directly into them? List all bash functions defined in the current environment? Parallelize ``xargs``? Rename files using bash variable substitution? Search files that have been modified in the last 2 weeks? Encrypt a file on the command line with ``gpg``? Wake up a remote computer which is powered off? Read on.
 
 
-The Shell
----------
-
-When you type command lines, you are interacting with a program call the
-“shell”. Unless otherwise indicated, the tips assume that you are using
-the *Bash* shell. You can check which shell is running with the command:
-
-::
-
-   echo $SHELL
-
-For a basic introduction to interacting with the shell, I recommend
-`Learning the
-shell <http://www.linuxcommand.org/lc3_learning_the_shell.php#contents>`__
-and `The Linux command line <http://linuxcommand.org/tlcl.php>`__ by
-William Shott, or any of the following tutorials:
-
--  `UNIX Tutorial for
-   Beginners <http://www.ee.surrey.ac.uk/Teaching/Unix/>`__
--  `Openclassrooms Initiation à
-   Linux <https://openclassrooms.com/en/courses/7170491-initiez-vous-a-linux?archived-source=43538>`__
-   (in French)
--  `YouTube series on The Linux Command
-   Line <https://www.youtube.com/playlist?list=PL8845C1A105E1624E>`__
--  `Classic Shell Scripting
-   book <https://doc.lagout.org/operating%20system%20/linux/Classic%20Shell%20Scripting.pdf>`__
-
-Some useful shortcuts
-~~~~~~~~~~~~~~~~~~~~~
-
-Editing the current command line
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
--  Ctrl-d : delete character under the cursor
--  Ctrl-k : delete everything from the cursor till the end of the line
--  Ctrl-u : delete the entire line
--  Alt-d : delete till the end of the current word
--  Ctrl-a : move the cursor to the beginning of the line
--  Ctrl-e : move the cursor to the end of the line
--  Ctrl-b, Alt-b: move backward, by one char or by one word
--  Ctrl-f, Alt-f: move forward, by one char or by one word
-
-Navigating the history of command lines:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
--  Ctrl-r : interactive backward search in the history of command lines
--  Ctrl-p : move to previous command line
--  Ctrl-n : move to next command line
-
-Job control
-^^^^^^^^^^^
-
--  Ctrl-c: Terminate (kill) the running job
-
--  Ctrl-z: Stop the running job (you can then put in background with
-   ``bg``)
-
--  Ctrl-d: Terminate the Shell and close the Terminal
-
--  Ctrl-l: Clear the terminal
-
--  Ctrl+s: Stop all output to the screen. This is particularly useful
-   when running commands with a lot of long, verbose output, but you
-   don’t want to stop the command itself with Ctrl+C.
-
--  Ctrl+q: Resume output to the screen after stopping it with Ctrl+S.
+Misc tricks
+-----------
 
 Tab completion and case-insensitivity
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,11 +83,81 @@ Later, we describe tools to find files (find, fdfind, grep, ack, ag).
 
 
 Open a file from the command line
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
    
    xdg-open file
+
+
+
+
+The Shell
+---------
+
+When you type command lines, you are interacting with a program call the
+“shell”. Unless otherwise indicated, the tips assume that you are using
+the *Bash* shell. You can check which shell is running with the command:
+
+::
+
+   echo $SHELL
+
+For a basic introduction to interacting with the shell, I recommend
+`Learning the
+shell <http://www.linuxcommand.org/lc3_learning_the_shell.php#contents>`__
+and `The Linux command line <http://linuxcommand.org/tlcl.php>`__ by
+William Shott, or any of the following tutorials:
+
+-  `UNIX Tutorial for
+   Beginners <http://www.ee.surrey.ac.uk/Teaching/Unix/>`__
+-  `Openclassrooms Initiation à
+   Linux <https://openclassrooms.com/en/courses/7170491-initiez-vous-a-linux?archived-source=43538>`__
+   (in French)
+-  `YouTube series on The Linux Command
+   Line <https://www.youtube.com/playlist?list=PL8845C1A105E1624E>`__
+-  `Classic Shell Scripting
+   book <https://doc.lagout.org/operating%20system%20/linux/Classic%20Shell%20Scripting.pdf>`__
+
+Some useful shortcuts
+~~~~~~~~~~~~~~~~~~~~~
+
+Editing the current command line
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+-  Ctrl-d : delete character under the cursor
+-  Ctrl-k : delete everything from the cursor till the end of the line
+-  Ctrl-u : delete the entire line
+-  Alt-d : delete till the end of the current word
+-  Ctrl-a : move the cursor to the beginning of the line
+-  Ctrl-e : move the cursor to the end of the line
+-  Ctrl-b, Alt-b: move backward, by one char or by one word
+-  Ctrl-f, Alt-f: move forward, by one char or by one word
+
+Navigating the history of command lines:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+-  Ctrl-r : interactive backward search in the history of command lines
+-  Ctrl-p : move to previous command line
+-  Ctrl-n : move to next command line
+
+Job control
+^^^^^^^^^^^
+
+-  Ctrl-c: Terminate (kill) the running job
+
+-  Ctrl-z: Stop the running job (you can then put in background with
+   ``bg``)
+
+-  Ctrl-d: Terminate the Shell and close the Terminal
+
+-  Ctrl-l: Clear the terminal
+
+-  Ctrl+s: Stop all output to the screen. This is particularly useful
+   when running commands with a lot of long, verbose output, but you
+   don’t want to stop the command itself with Ctrl+C.
+
+-  Ctrl+q: Resume output to the screen after stopping it with Ctrl+S.
 
 
 Commands

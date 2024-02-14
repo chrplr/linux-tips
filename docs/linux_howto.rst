@@ -33,7 +33,7 @@ William Shott, or any of the following tutorials:
 Some useful shortcuts
 ~~~~~~~~~~~~~~~~~~~~~
 
-Bash relies the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab completion::
+Bash relies on the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab-completion::
 
       echo 'set completion-ignore-case On' >> ~/.inputrc
 
@@ -59,26 +59,22 @@ Navigating the history of command lines:
 -  Ctrl-p : move to previous command line
 -  Ctrl-n : move to next command line
 
-.. note::
 
-   If you start a command line with a space, this line will *not* be saved in the history of commands.
+
+If you start a command line with a space, this line will *not* be saved in the history of commands.
    
-   At any time, you can clear the list of commands typed in the current session with ``history -c``
+At any time, you can clear the list of commands typed in the current session with ``history -c``
 
-   The history of commands lines typed in the current shell is saved on the disk (that is, appended to the file pointed to by ``$HISTFILE``) *only when you exit this shell*. But you can write them explicitly at any time using ``history -w``
+The history of commands lines typed in the current shell is saved on the disk (that is, appended to the file pointed to by ``$HISTFILE``) *only when you exit this shell*. But you can write them explicitly at any time using ``history -w``
 
-   I recommend to set ``$HISTSIZE`` and ``$HISTFILESIZE`` to large numbers, e.g.::
+I recommend to set ``$HISTSIZE`` and ``$HISTFILESIZE`` to large numbers, e.g.::
      
      export HISTSIZE=10000
      export HISTFILESIZE=100000
 
-   in ``.bashrc``
+in ``.bashrc``
  
-   
-
-
-
-Check out ``man readline`` for many other keybindings and to customize the behavior of the command lines by setting variables in ``.inputrc``
+Check out ``man readline`` for many other keybindings and to customize the behavior of the command lines by setting variables in ``~/.inputrc``
    
 
    
@@ -99,9 +95,6 @@ Job control
    don’t want to stop the command itself with Ctrl+C.
 
 -  Ctrl+q: Resume output to the screen after stopping it with Ctrl+S.
-
-
-
    
 
 Commands

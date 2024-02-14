@@ -6,14 +6,11 @@ Even if you are are a seasoned Linux user, you may still learn one thing or two.
 
 
 
-The Shell
----------
+Interacting with the Shell
+--------------------------
 
-When you type command lines, you are interacting with a program call the
-“shell”. Unless otherwise indicated, the tips assume that you are using
-the *Bash* shell. You can check which shell is running with the command:
-
-::
+When you type command lines, you are sending instructions to a program called the “shell”. Unless otherwise indicated, the tips assume that you are using
+the *Bash* shell. You can check which shell is running with the command::
 
    echo $SHELL
 
@@ -36,18 +33,25 @@ William Shott, or any of the following tutorials:
 Some useful shortcuts
 ~~~~~~~~~~~~~~~~~~~~~
 
+Bash relies the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab completion::
+
+      echo 'set completion-ignore-case On' >> ~/.inputrc
+
+
 Editing the current command line
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 -  Ctrl-d : delete character under the cursor
 -  Ctrl-k : delete everything from the cursor till the end of the line
--  Ctrl-u : delete the entire line
+-  Ctrl-u : delete everythin from the start if the line untl the cursor
 -  Alt-d : delete till the end of the current word
 -  Ctrl-a : move the cursor to the beginning of the line
 -  Ctrl-e : move the cursor to the end of the line
 -  Ctrl-b, Alt-b: move backward, by one char or by one word
 -  Ctrl-f, Alt-f: move forward, by one char or by one word
 
+
+   
 Navigating the history of command lines:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -55,20 +59,27 @@ Navigating the history of command lines:
 -  Ctrl-p : move to previous command line
 -  Ctrl-n : move to next command line
 
+.. note::
 
-Tab completion and case-insensitivity
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   If you start a command line with a space, this line will *not* be saved in the history of commands.
+   
+   At any time, you can clear the list of commands typed in the current session with ``history -c``
 
-To enter the name of a file, you can type the first characters then
-press the ``TAB`` key to autocomplete the end of the name. This also
-work for commands or environment variables. 
+   The history of commands lines typed in the current shell is saved on the disk (that is, appended to the file pointed to by ``$HISTFILE``) *only when you exit this shell*. But you can write them explicitly at any time using ``history -w``
 
-.. note:: 
-  bash relies the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__ 
-  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab completion::
+   I recommend to set ``$HISTSIZE`` and ``$HISTFILESIZE`` to large numbers, e.g.::
+     
+     export HISTSIZE=10000
+     export HISTFILESIZE=100000
 
-      echo 'set completion-ignore-case On' >> ~/.inputrc
+   in ``.bashrc``
+ 
+   
 
+
+
+Check out ``man readline`` for many other keybindings and to customize the behavior of the command lines by setting variables in ``.inputrc``
+   
 
    
 Job control

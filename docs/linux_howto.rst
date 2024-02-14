@@ -244,14 +244,12 @@ See:
 * http://mywiki.wooledge.org/DotFiles
 
 
-Life savers
------------
 
 Jump directly to directories
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
-DirB: Directory Bookmarks
-*************************
+Directory Bookmarks
+~~~~~~~~~~~~~~~~~~~
 
 If you are tired of typing intermediate directory names when changing
 directory, check out the *Directory Bookmarks functions for bash* described in 
@@ -281,8 +279,8 @@ the available operations:
    sl -p                  path list
 
 
-cdhist: cd history
-******************
+cd history
+~~~~~~~~~~
 
 Another possibility is to use `cdhist <https://github.com/bulletmark/cdhist>`_, a tool that replaces the ``cd`` command
  by a new version that, when you type ``cd --``, list the recently visited directories and let you select one. It is a python script, therefoere, to install it, 
@@ -298,7 +296,7 @@ And add the following lines to ``~/.bashrc``::
 
   
 find files interactively
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 Install the fuzzy file finder ``fzf``
 
@@ -321,7 +319,7 @@ Open a file from the command line
 
    
 Kill a program that is no longer responsive
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------------
 
 It may happen that a program monopolizes most of the CPU, but does not
 longer respond to input. Such a program is crashed and should be
@@ -363,17 +361,31 @@ network using ``ssh`` and to kill the applications or do a proper
 shutdown (typing ‘halt’ on the command line).
 
 
-Remote power on/off
--------------------
+Remote power off
+----------------
 
 Powering off is easy, just type::
 
-   shutdown
+   sudo shutdown
 
-If your workstation is switched off, but you can log to a linux computer on the same local area network, you might be able to power it on. 
+You my want to specify a delay::
 
-If you have previously noted down the MAC address of your computer's network interface (using ``ip a`` when the computer was on),
-and authorized "Wake on lan (WOL)" in the station's BIOS parameters, you can power it on remotely.
+   sudo shutdown --halt +1  # one minute delay
+
+You can cancel the shutdown during the delay with::
+
+   sudo shutdown -c
+
+ If you want to reboot the system::
+
+   sudo shutdown -r now
+
+Remote power on
+---------------
+  
+If your workstation is switched off, but you can log to another linux computer on the same local area network, you might be able to power it on if you have authorized *Wake on lan (WOL)* in your station's BIOS parameters.  
+
+First, you need to know the MAC address of your computer's network interface (using ``ip a`` when the computer was on).
 
 Say the MAC address is "c8:f7:50:bc:ea:f5", then the command::
    
@@ -482,8 +494,8 @@ Use the programs ``xranrd`` and ``arandr``
 
 If you have a nvidia graphics card, you can also use ``nvidia-settings``
 
-Connect to a remote computer using ssh
---------------------------------------
+Connect to remote computers using ssh
+-------------------------------------
 
 A secure method to connect to a remote computer:
 
@@ -509,8 +521,6 @@ need to add the ``-X`` option:
 Note: you may need to run ``xhost +`` on the local (client) computer.
 
 If you often connect to a computer, you can create an entry in ``$HOME/.ssh/config``::
-
-::
 
    Host myserver
        Hostname gozilla.example.com

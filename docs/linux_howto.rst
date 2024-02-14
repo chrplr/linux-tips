@@ -3,92 +3,6 @@ This is a collection of Linux tips accumulated over the years.
 Even if you are are a seasoned Linux user, you may still learn one thing or two. For example, do you know how to make bash unsensitive to filename case during TAB completion? Create bookmarks for directories so that you can jump (cd) directly into them? List all bash functions defined in the current environment? Parallelize ``xargs``? Rename files using bash variable substitution? Search files that have been modified in the last 2 weeks? Encrypt a file on the command line with ``gpg``? Wake up a remote computer which is powered off? Read on.
 
 
-Misc tricks
------------
-
-Tab completion and case-insensitivity
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To enter the name of a file, you can type the first characters then
-press the ``TAB`` key to autocomplete the end of the name. This also
-work for commands or environment variables. 
-
-.. note:: 
-  bash relies the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__ 
-  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab completion::
-
-      echo 'set completion-ignore-case On' >> ~/.inputrc
-
-
-Jump directly to directories
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-DirB: Directory Bookmarks
-*************************
-
-If you are tired of typing intermediate directory names when changing
-directory, check out the *Directory Bookmarks functions for bash* described in 
-this `linux journal article about dirb <https://www.linuxjournal.com/article/10585>`_.
-
-Download https://raw.githubusercontent.com/icyfork/dirb/master/dirb.sh
-in your ``$HOME`` folder and add the following line to the file
-``$HOME/.bashrc``:
-
-::
-
-   source $HOME/dirb.sh
-
-Once installed, you can save bookmarks for specific directories (command
-``s``) and later jump into them directly (command ``g``). Here are all
-the available operations:
-
-::
-
-   s       Save a directory bookmark
-   g       go to a bookmark or named directory
-   p       push a bookmark/directory onto the dir stack
-   r       remove saved bookmark
-   d       display bookmarked directory path
-   sl      print the list of directory bookmarks
-   sl -l                  long list
-   sl -p                  path list
-
-
-cdhist: cd history
-******************
-
-Another possibility is to use `cdhist <https://github.com/bulletmark/cdhist>`_, a tool that replaces the ``cd`` command
- by a new version that, when you type ``cd --``, list the recently visited directories and let you select one. It is a python script, therefoere, to install it, 
- you need to type::
-
-    pipx install cdhist
-
-And add the following lines to ``~/.bashrc``::
-
-    if type cdhist &>/dev/null; then
-        . <(cdhist -i)
-    fi
-
-find files interactively
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Install the fuzzy file finder ``fzf``
-
-    sudo apt install fzf
-
-Then, the command ``fzf`` will let you explore the files in the working directory interactively
-
-Later, we describe tools to find files (find, fdfind, grep, ack, ag).
-
-
-
-Open a file from the command line
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-   
-   xdg-open file
-
 
 
 
@@ -141,6 +55,22 @@ Navigating the history of command lines:
 -  Ctrl-p : move to previous command line
 -  Ctrl-n : move to next command line
 
+
+Tab completion and case-insensitivity
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To enter the name of a file, you can type the first characters then
+press the ``TAB`` key to autocomplete the end of the name. This also
+work for commands or environment variables. 
+
+.. note:: 
+  bash relies the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__ 
+  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab completion::
+
+      echo 'set completion-ignore-case On' >> ~/.inputrc
+
+
+   
 Job control
 ^^^^^^^^^^^
 
@@ -159,6 +89,9 @@ Job control
 
 -  Ctrl+q: Resume output to the screen after stopping it with Ctrl+S.
 
+
+
+   
 
 Commands
 ~~~~~~~~
@@ -311,7 +244,80 @@ See:
 * http://mywiki.wooledge.org/DotFiles
 
 
+Life savers
+-----------
+
+Jump directly to directories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DirB: Directory Bookmarks
+*************************
+
+If you are tired of typing intermediate directory names when changing
+directory, check out the *Directory Bookmarks functions for bash* described in 
+this `linux journal article about dirb <https://www.linuxjournal.com/article/10585>`_.
+
+Download https://raw.githubusercontent.com/icyfork/dirb/master/dirb.sh
+in your ``$HOME`` folder and add the following line to the file
+``$HOME/.bashrc``:
+
+::
+
+   source $HOME/dirb.sh
+
+Once installed, you can save bookmarks for specific directories (command
+``s``) and later jump into them directly (command ``g``). Here are all
+the available operations:
+
+::
+
+   s       Save a directory bookmark
+   g       go to a bookmark or named directory
+   p       push a bookmark/directory onto the dir stack
+   r       remove saved bookmark
+   d       display bookmarked directory path
+   sl      print the list of directory bookmarks
+   sl -l                  long list
+   sl -p                  path list
+
+
+cdhist: cd history
+******************
+
+Another possibility is to use `cdhist <https://github.com/bulletmark/cdhist>`_, a tool that replaces the ``cd`` command
+ by a new version that, when you type ``cd --``, list the recently visited directories and let you select one. It is a python script, therefoere, to install it, 
+ you need to type::
+
+    pipx install cdhist
+
+And add the following lines to ``~/.bashrc``::
+
+    if type cdhist &>/dev/null; then
+        . <(cdhist -i)
+    fi
+
   
+find files interactively
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install the fuzzy file finder ``fzf``
+
+    sudo apt install fzf
+
+Then, the command ``fzf`` will let you explore the files in the working directory interactively
+
+Later, we describe tools to find files (find, fdfind, grep, ack, ag).
+
+
+
+Open a file from the command line
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+   
+   xdg-open file
+
+
 
    
 Kill a program that is no longer responsive
@@ -1013,6 +1019,22 @@ Perform a security check
    sudo lynis audit system
    sudo rkhunter -c
 
+
+Update firmware
+---------------
+
+::
+   systemctl start fwupd
+
+   # list devices that support firmware updates
+   fwupdmgr get-devices
+
+
+   # updating
+   fwupdmgr refresh
+   fwupdmgr get-updates
+   fwupdmgr update
+   
 Users
 -----
 

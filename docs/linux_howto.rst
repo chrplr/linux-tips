@@ -1038,6 +1038,7 @@ Update firmware
 ---------------
 
 ::
+   
    systemctl start fwupd
 
    # list devices that support firmware updates
@@ -1049,6 +1050,7 @@ Update firmware
    fwupdmgr get-updates
    fwupdmgr update
    
+
 Users
 -----
 

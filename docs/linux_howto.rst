@@ -798,6 +798,9 @@ https://livebook.manning.com/book/linux-in-action/chapter-13/74)
 You may have to install it with ``pip install glances`` or
 ``sudo apt install glances``.
 
+Note: there exist other process monitoring tools: atop, btop, htop, nmon
+
+
 Find the process that owns a file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -857,15 +860,33 @@ Which version of the linux kernel is running:
 
    uname -a
    
-   
+Note: for improved real-time performance, you need to see ``PREEMPT_DYNAMIC``.
+You can also check the value of ``CONFIG_HZ`` with
 
-To display detailed hardware information:
+::
+
+   grep ^CONFIG_HZ /boot/config-`uname -r`
+
+If CONFIG_HZ is less than 1000, it may be worth installing a realtime kernel to reduce latencies and the probability of audio dropouts:
+
+  
+::
+   
+   sudo apt install linux-lowlatency-hwe-22.04
+
+
+
+
+Display detailed hardware information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
    lshw -short
    hwinfo --short
    lspci
+   inxi -b
+   
 
 Monitor temperatures
 ~~~~~~~~~~~~~~~~~~~~
@@ -2077,6 +2098,7 @@ a nutshell:
 
 5. In qjackctl, use connect and the patchbay.
 
+   
 Miscellaneous
 -------------
 

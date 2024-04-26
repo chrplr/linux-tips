@@ -252,6 +252,20 @@ See:
 Jump directly to directories
 ----------------------------
 
+
+Using symbolic links
+~~~~~~~~~~~~~~~~~~~~
+
+You can use `ln -s` to create shortcuts to folders that you quickly need to access.
+
+::
+
+   ln -s myproject_buried_in_some_very_deep_path_too_long_to_type  ~/myproject
+   
+After that, you will just need to type::
+
+   cd ~/myproject
+
 Directory Bookmarks
 ~~~~~~~~~~~~~~~~~~~
 
@@ -689,6 +703,55 @@ To confirm that ``ssh`` is forwarding X11, check for a line containing
 Requesting X11 forwarding in the ``ssh -v -X output``. Note that the server
 won’t reply either way, a security precaution of hiding details from
 potential attackers.
+
+
+Running jobs in parallel
+------------------------
+
+You cand launch commands in background by appending a ``&``  sign at the end of the command line::
+
+  gedit &
+
+(Note if a command is already running, blocking the terminal, you use ``Ctrl-Z`` and then the built-in command ``bg`` to put the process in background)
+
+
+You can use this to launch several processes in parallel.
+
+Consider the following shell script ``test.sh`` that just print its arguments and sleeps for 5s::
+
+  #! /usr/bin/bash
+  echo "Args: $@"
+  sleep 5s
+  echo "Done"
+
+Set the executre flag::
+
+  chmod +x test.sh
+
+  
+You can launch 5 instances of it with a ``for loop``::
+  
+  for i in $( seq 1 5 ); do (./test.sh $i &); done
+
+If you want to , to avoid mangling the standard output, you can save the output of each process in a different file:
+
+::
+
+  for i in $( seq 1 5 ); do (./test.sh $i >test_${i}.out.txt &); done
+
+To run each command in a different terminal (you may need to install ``xterm``)::
+
+  for i in $( seq 1 5); do (xterm -hold -title "Process $i" -e ./test.sh $i &); done
+
+
+The ``xargs`` and  ``parallel``  commands  also allows one to launch the same command in parallel with different parameters::
+
+  seq 1 5 | xargs -P 5 -n 1 ./test.sh
+
+  parallel ./test.sh ::: $( seq 1 5 )
+
+To know more, read their documentations...
+
 
 Get information about the system
 --------------------------------

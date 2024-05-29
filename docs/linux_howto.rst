@@ -705,6 +705,19 @@ won’t reply either way, a security precaution of hiding details from
 potential attackers.
 
 
+
+Preventing a job from beging killed when one closes the terminal
+----------------------------------------------------------------
+
+::
+   
+   nohup cmd &
+
+
+See also ``tmux``
+   
+
+
 Running jobs in parallel
 ------------------------
 
@@ -2137,6 +2150,19 @@ server — which can be checked with ``pactl list`` —, install
 ``pavucontrol`` to control the sound levels and which sound card each
 software is using.
 
+Disabling the pulseaudio server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To reduce latencies, you can disable pulseaudio to let your program directly use alsa::
+
+
+  systemctl --user stop pulseaudio.socket
+  systemctl --user stop pulseaudio.service
+  systemctl --user disable pulseaudio.socket
+  systemctl --user disable pulseaudio.service
+  systemctl --user mask pulseaudio.socket
+  systemctl --user mask pulseaudio.service
+
 Connect a MIDI instrument
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2148,18 +2174,18 @@ a nutshell:
    sudo apt install jackd2 jack-tools fluidsynth aconnectgui vmpk qjackctl qsynth  fluid-soundfont-gm
 
 1. To avoid potential latencies, you may want to install a kernel with
-   the PREEMPT option:
+   the PREEMPT option::
 
-   sudo apt-get install linux-lowlatency-hwe-20.04
+    sudo apt-get install linux-lowlatency-hwe-20.04
 
 2. Launch ``qjackctl``, in the setup tab, set Frame/period to 128 to
    reduce latency, ans press ‘start’
 
-3. Use aconnectgui to connect your MIDI keyboard
+3. Use `aconnectgui` to connect your MIDI keyboard
 
-4. Launch qsynth, add the soundfounds in setup and restart it.
+4. Launch `qsynth`, add the soundfounds in setup and restart it.
 
-5. In qjackctl, use connect and the patchbay.
+5. In `qjackctl`, use connect and the patchbay.
 
    
 Miscellaneous
@@ -2723,8 +2749,11 @@ Common file types
 |          |              | (create)                                  |
 +----------+--------------+-------------------------------------------+
 
+
 Similar resources:
 ------------------
 
 -  `Linux Commands Cheat
    Sheet <https://www.pcwdld.com/linux-commands-cheat-sheet>`__
+
+   

@@ -512,6 +512,21 @@ Use the programs ``xranrd`` and ``arandr``
 
 If you have a nvidia graphics card, you can also use ``nvidia-settings``
 
+
+Find other computers on the local area network
+----------------------------------------------
+
+::
+
+   fping -g -r 1 192.168.1.0/24 2>1 | grep "alive"
+   
+   # to obtain the zeroconf name (.local) associated to an IP:
+   avahi-resolve --address <IP>   
+
+or::
+  
+   sudo nmap -sn 192.168.1.0/24
+
 Connect to remote computers using ssh
 -------------------------------------
 
@@ -831,14 +846,22 @@ on your account, you can check how much is available:
 
    quota -s
 
+   
 List available disk partitions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
+
    lsblk | grep -v loop   # excludes loop devices
    blkid
 
+List mounted filesystems
+~~~~~~~~~~~~~~~~~~~~~~~~
+   
+   findmnt
+
+   
 List the processes currently running on the system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -984,15 +1007,23 @@ temperatures:
 Monitor the performance of your computer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can monitor your system with ``glances``:
+You can get the system load averages with::
 
-::
+   uptime
+
+If you want to monitor the loads continuously::
+
+  watch uptime
+  tload
+
+
+A good rule of thumb is that a Load Average lower than the number of CPU cores is typically okay. 
+
+You can monitor your system in more details with ``glances``::
 
    glances -t 5
 
-or with ``htop``:
-
-::
+or with ``htop``::
 
    htop -d 50 --sort-key PERCENT_CPU
    htop -d 50 --sort-key M_RESIDENT
@@ -1039,6 +1070,17 @@ Or the general network performance:
 
 Large ``TX-ERR`` or ``RX-ERR`` indicate a problem.
 
+
+stress the system
+-----------------
+
+::
+
+   sudo apt isntall stress-ng
+   # example:
+   stress-ng --cpu 4 --io 2 --vm 1 --vm-bytes 1G --timeout 60s --metrics-brief
+
+See `Stress testing real-time systems with stress-ng <https://docs.redhat.com/en/documentation/red_hat_enterprise_linux_for_real_time/8/html/optimizing_rhel_8_for_real_time_for_low_latency_operation/assembly_stress-testing-real-time-systems-with-stress-ng_optimizing-rhel8-for-real-time-for-low-latency-operation#proc_generating-a-virtual-memory-pressure_assembly_stress-testing-real-time-systems-with-stress-ng>`_
 
 Check open listening ports
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

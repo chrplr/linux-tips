@@ -614,10 +614,9 @@ computer you want to connect to. This can be done with:
 
    ssh-copy-id  login@remotecomputer
 
-If you have left the passphrase empty, you can know use ``ssh`` or ``scp`` without entering your password. But so can do anyone who has access to your account on the local computer.
+If you have left the passphrase empty, you can now use ``ssh`` or ``scp`` without entering your password. But so can do anyone who has access to your account on the local computer...
 
-So you may prefer to use a passphrase. To avoid having to type it each
-time you log to the remote computer, copy the following lines in your
+For better protection, you may prefer to use a passphrase. But, then, to avoid having to type it each time you log to the remote computer, copy the following lines in your
 ``~/.bash_profile``:
 
 ::
@@ -1102,25 +1101,17 @@ List all running services
 Benchmark disk IO performance:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can simply use `hdparm` and `dd`::
 
-   sudo hdparm -tv /dev/sdc1  # read test
-   dd if=/dev/zero of=/disk/temp oflag=direct bs=128k count=1G  # write test 
+Install and run  `fio`::
 
-(See  https://linuxconfig.org/how-to-benchmark-disk-performance-on-linux)
-
-For a more detailed analysis, install and run  `fio`::
-
-   man fio
 
    fio --name TEST --eta-newline=5s --filename=fio-tempfile.dat --rw=read --size=500m --io_size=10g --blocksize=1024k --ioengine=libaio --fsync=10000 --iodepth=32 --direct=1 --numjobs=1 --runtime=60 --group_reporting
 
-   fio --name TEST --eta-newline=5s --filename=fio-tempfile.dat --rw=write --size=500m --io_size=10g --blocksize=1024k --ioengine=libaio --fsync=10000 --iodepth=32 --direct=1 --numjobs=1 --runtime=60 --group_reporting
+See:
 
-(from
-https://askubuntu.com/questions/87035/how-to-check-hard-disk-performance)
+https://cloud.google.com/compute/docs/disks/benchmarking-pd-performance-linux
 
-
+https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LX7xSAG
 
 Benchmark 3D video performace
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

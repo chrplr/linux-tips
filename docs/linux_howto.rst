@@ -720,6 +720,50 @@ potential attackers.
 
 
 
+
+
+DNS
+---
+
+To konw the dns servers you are using::
+
+    resolvectl
+
+
+To find the IP associated to a name::
+
+   dig servername
+
+To find the name associated to an IP (reverse lookup)::
+
+  dig -x XX.XX.XX.XX
+
+Internet Route tables
+---------------------
+
+::
+  
+   ip r
+
+or::
+
+   route
+
+or::
+
+    route -l
+
+traceroute
+----------
+
+::
+
+   tracepath
+
+or::
+
+   mtr
+
 Preventing a job from beging killed when one closes the terminal
 ----------------------------------------------------------------
 

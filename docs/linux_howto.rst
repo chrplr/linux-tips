@@ -1088,6 +1088,9 @@ If you want to monitor the loads continuously::
 
 A good rule of thumb is that a Load Average lower than the number of CPU cores is typically okay. 
 
+Check `Linux load averages <https://www.brendangregg.com/blog/2017-08-08/linux-load-averages.html>`_ to better understand the meaning of load.
+
+
 You can monitor your system in more details with ``glances``::
 
    glances -t 5
@@ -1138,6 +1141,9 @@ Or the general network performance:
    netstat -i 10
 
 Large ``TX-ERR`` or ``RX-ERR`` indicate a problem.
+
+
+See `USE Method: Linux Performance Checklist <https://www.brendangregg.com/USEmethod/use-linux.html>`_
 
 
 Stress the system
@@ -1814,6 +1820,16 @@ Later, we describe tools to find files (find, fdfind, grep, ack, ag).
 
 find duplicate files
 --------------------
+
+Download ``find-dupes.awk`` from https://github.com/taltman/scripts/blob/master/unix_utils/find-dupes.awk
+
+::
+
+     ls -lTR | time awk -f find-dupes.awk > hash-dupes.txt
+
+
+Other tools to find duplicate files:
+
 
 * `fdupes <https://github.com/adrianlopezroche/fdupes>`_
 * `fslint <https://www.pixelbeat.org/fslint/>`_

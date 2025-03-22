@@ -779,6 +779,41 @@ potential attackers.
 Internet
 --------
 
+What is my public IP address?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To know your public address on the Internet:
+
+::
+
+   sudo apt install curl
+   curl ifconfig.me
+
+To know your IP address *on the local area network*:
+
+::
+
+   ip addr
+
+(you must identify the physical interface (ethernet card or wifi card)
+and check for the ``inet`` line)
+
+
+Check opened listening ports
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+   
+   sudo netstat -tulpn
+
+Check open network connections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+   ss -tr
+
+
 DNS
 ~~~
 
@@ -841,24 +876,6 @@ or
 
    uname -n
 
-What is my public IP address?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To know your public address on the Internet:
-
-::
-
-   sudo apt install curl
-   curl ifconfig.me
-
-To know your IP address *on the local area network*:
-
-::
-
-   ip addr
-
-(you must identify the physical interface (ethernet card or wifi card)
-and check for the ``inet`` line)
 
 Check available space on local disks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -952,6 +969,16 @@ Sometimes, it can useful to find the process that owns an open file:
    lsof  filename
 
 (See http://www.thegeekstuff.com/2012/08/lsof-command-examples/)
+
+
+List all running services
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+   systemctl -l -t service | less
+
+
 
 Get detailed information about your system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1113,7 +1140,7 @@ Or the general network performance:
 Large ``TX-ERR`` or ``RX-ERR`` indicate a problem.
 
 
-stress the system
+Stress the system
 -----------------
 
 ::
@@ -1123,21 +1150,6 @@ stress the system
    stress-ng --cpu 4 --io 2 --vm 1 --vm-bytes 1G --timeout 60s --metrics-brief
 
 See `Stress testing real-time systems with stress-ng <https://docs.redhat.com/en/documentation/red_hat_enterprise_linux_for_real_time/8/html/optimizing_rhel_8_for_real_time_for_low_latency_operation/assembly_stress-testing-real-time-systems-with-stress-ng_optimizing-rhel8-for-real-time-for-low-latency-operation#proc_generating-a-virtual-memory-pressure_assembly_stress-testing-real-time-systems-with-stress-ng>`_
-
-Check open listening ports
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-   
-   sudo netstat -tulpn
-
-
-List all running services
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-   systemctl -l -t service | less
 
    
 
@@ -1156,8 +1168,8 @@ https://cloud.google.com/compute/docs/disks/benchmarking-pd-performance-linux
 
 https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LX7xSAG
 
-Benchmark 3D video performace
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Benchmark 3D video performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -1189,12 +1201,6 @@ If you have a nvidia card:
 
    nvidia-smi
 
-Check open network connections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-::
-
-   ss -tr
 
 Perform a security check
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1410,6 +1416,9 @@ To change the current working directory:
 
 Note that you can always go back to your home directory by just typing
 ``cd`` (without argument).
+
+Recommandation: install `cdhist <https://github.com/bulletmark/cdhist>` to keep a trace of visited directories._
+
 
 List files and subdirectories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1792,7 +1801,7 @@ Read the manual::
    man plocate
 
 find files interactively
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 Install the fuzzy file finder ``fzf``
 
@@ -1803,8 +1812,17 @@ Then, the command ``fzf`` will let you explore the files in the working director
 Later, we describe tools to find files (find, fdfind, grep, ack, ag).
 
 
+find duplicate files
+--------------------
+
+* `fdupes <https://github.com/adrianlopezroche/fdupes>`_
+* `fslint <https://www.pixelbeat.org/fslint/>`_
+* `rdfind <https://github.com/pauldreik/rdfind>`_
+* `czkawka  <https://github.com/qarmin/czkawka>`_
+
+
 Search files by content
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 ::
 
@@ -1909,14 +1927,14 @@ use:
      rsync --dry-run --recursive --size-only -i  source/ target/
 
 Synchronize two directories bidirectionaly
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------
 
 ::
 
      unison
 
 Backups
-~~~~~~~
+-------
 
 To back up my laptop, I use `rsnapshot <https://rsnapshot.org/>`__. I
 use an external harddrive with a large ext4 partition (~4 times the

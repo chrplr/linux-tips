@@ -1,8 +1,6 @@
 This is a collection of Linux tips accumulated over the years.
 
-Even if you are are a seasoned Linux user, you may still learn one thing or two. For example, do you know how to make bash unsensitive to filename case during TAB completion? Create bookmarks for directories so that you can jump (cd) directly into them? List all bash functions defined in the current environment? Parallelize ``xargs``? Rename files using bash variable substitution? Search files that have been modified in the last 2 weeks? Encrypt a file on the command line with ``gpg``? Wake up a remote computer which is powered off? Read on.
-
-
+Even if you are are a seasoned Linux user, you may still learn one thing or two. For example, do you know how to make bash unsensitive to filename case during TAB completion? Create bookmarks for directories so that you can jump (cd) directly into them? List all bash functions defined in the current environment? Parallelize ``xargs``? Rename files using bash variable substitution? Search files that have been modified in the last 2 weeks? Encrypt a file on the command line with ``gpg``? Wake up a remote computer which is powered off? If not, read on.
 
 
 
@@ -30,34 +28,38 @@ William Shott, or any of the following tutorials:
 -  `Classic Shell Scripting
    book <https://doc.lagout.org/operating%20system%20/linux/Classic%20Shell%20Scripting.pdf>`__
 
-Some useful shortcuts
-~~~~~~~~~~~~~~~~~~~~~
 
-Bash relies on the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab-completion::
-
-      echo 'set completion-ignore-case On' >> ~/.inputrc
 
 
 Editing the current command line
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  Ctrl-d : delete character under the cursor
--  Ctrl-k : delete everything from the cursor till the end of the line
--  Ctrl-u : delete everythin from the start if the line untl the cursor
--  Alt-d : delete till the end of the current word
--  Ctrl-a : move the cursor to the beginning of the line
--  Ctrl-e : move the cursor to the end of the line
--  Ctrl-b, Alt-b: move backward, by one char or by one word
--  Ctrl-f, Alt-f: move forward, by one char or by one word
+============= ===============================================================
+key           action
+============= ===============================================================
+Ctrl-d        delete character under the cursor
+Ctrl-k        delete everything from the cursor till the end of the line
+Ctrl-u        delete everything from the start if the line untl the cursor
+Alt-d         delete until the end of the current word
+Ctrl-a        move the cursor to the beginning of the line
+Ctrl-e        move the cursor to the end of the line
+Ctrl-b, Alt-b move backward, by one char or by one word
+Ctrl-f, Alt-f move forward, by one char or by one word
+============= ===============================================================
 
 
    
 Navigating the history of command lines:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  Ctrl-r : interactive backward search in the history of command lines
--  Ctrl-p : move to previous command line
--  Ctrl-n : move to next command line
+==========    ============================================================
+key           action
+==========    ============================================================
+Ctrl-r        interactive backward search in the history of command lines
+Ctrl-p        move to previous command line
+Ctrl-n        move to next command line
+==========    ============================================================
+
 
 
 
@@ -79,26 +81,22 @@ Check out ``man readline`` for many other keybindings and to customize the behav
 
    
 Job control
-^^^^^^^^^^^
+~~~~~~~~~~~
 
--  Ctrl-c: Terminate (kill) the running job
-
--  Ctrl-z: Stop the running job (you can then put in background with
-   ``bg``)
-
--  Ctrl-d: Terminate the Shell and close the Terminal
-
--  Ctrl-l: Clear the terminal
-
--  Ctrl+s: Stop all output to the screen. This is particularly useful
-   when running commands with a lot of long, verbose output, but you
-   don’t want to stop the command itself with Ctrl+C.
-
--  Ctrl+q: Resume output to the screen after stopping it with Ctrl+S.
+==========    =================================================================
+key           action
+==========    =================================================================
+Ctrl-c        Terminate (kill) the running job
+Ctrl-z        Stop the running job (you can then put in background with ``bg``)
+Ctrl-d        Terminate the Shell and close the Terminal
+Ctrl-l        Clear the terminal
+Ctrl-s        Stop all output to the screen. 
+Ctrl-q        Resume output to the screen after stopping it with ``Ctrl-s``
+==========    =================================================================
    
 
-Commands
-~~~~~~~~
+Commands/functions/builtins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you type something on a command line and press ``Return``, you
 give an order to the shell. The first token is a command and the
@@ -164,97 +162,33 @@ i.e. to be active each time you start a shell, add the
 ``export PATH=...`` line to the file ``~/.profile``.
 
 
-Creating scripts
-~~~~~~~~~~~~~~~~
 
-If you happen to often type the same series of commands, it is a good
-idea to create a script, that is, basically, a text file gathering the
-sequence of commands to be executed. Then, you will just have to type
-the filename of this script to execute all the commands.
+Customization
+~~~~~~~~~~~~~
 
-If it does not exist yet, create a ``bin`` directory in your home
-folder:
+Enabling case-insensitive tab-completion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+Bash relies on the `readline library <https://www.gnu.org/software/bash/manual/html_node/Readline-Interaction.html>`__  to interact with the user. Its behavior can be customized by options in ``$HOME/.inputrc``. For example, to enable case-insensitive tab-completion::
 
-   mkdir $HOME/bin.
+      echo 'set completion-ignore-case On' >> ~/.inputrc
 
-Use a text editor to create a file ``myscript`` in this directory, and
-enter the following on the first line:
+Customizing the prompt
+~~~~~~~~~~~~~~~~~~~~~~
 
-::
+The `PS1` environment variable is a template for the prompt. 
 
-   #! /bin/bash
+The site https://bash-prompt-generator.org/ provides some help to customize it.
 
-Then type the series of commands (one per line) you want to be executed.
+See also https://unix.stackexchange.com/questions/711110/customize-bash-prompt-without-plugins
 
-Save the file ``myscript`` and enter the commands:
+Oh-My-Bash
+~~~~~~~~~~
 
-::
+For fancier terminal, you can install `oh-my-bash` from https://github.com/ohmybash/oh-my-bash
 
-   chmod +x ~/bin/myscript
-   PATH="$HOME/bin:$PATH"
-
-You can now type ``myscript`` on the command line to execute the series
-of commands.
-
-To go further, you should learn how to use arguments to scripts.
-
-Note that you write scripts in other languages than bash, e.g. python.
-
-Startup scripts: .profile, .bashrc, .bash_profile
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-``~/.bash_profile``, ``~/.profile``, ``.bashrc`` are scripts that are
-executed automatically when you start a shell. This allows you to set up
-your environment (e.g. the PATH, the Prompt, create aliases for common operations, ...)
-
-There are four types of shells:
-
-- login shells and non-login shells.
-
-- interactive and non-interactive shells 
-
-If you connect to a remote computer with ``ssh remote``, you get an *interactive login* shell.
-
-If you execute a command on a remote computer with ``ssh remote command``, the script or the command is executed in a *login non-interactive* shell.
-
-If you are already log in, that is, you have open a session, and open a new terminal, you get an *interactive non-login* shell.
-
-If you execute a bash script,  it is launched in a *non-interactive, non-login* shell.
-
-
-Login shells execute ``~/.profile`` and ``~/.bash_profile``.
-
-Non-login shells only execute ``~/.bashrc``, not ``~/.profile`` nor
-``~/.bash_profile``
-
-Anything that should be available to graphical applications OR to ``sh`` (or
-``bash`` invoked as ``sh``) MUST be in ``~/.profile``, not ``.bashrc`` (If you launch a graphical application not from the terminal, it only knows about the environment that was created at login. In particular, it will not know about stuff in ``.bashrc``)
-.
-
-- ``~/.profile`` has the stuff NOT specifically related to bash, such
-   as environment variables (PATH and friends)
-- Anything that should be available only to login shells should go in ``~/.profile``
-- ``~/.bashrc`` has anything you’d want at an interactive command line (Command prompt, EDITOR variable, bash aliases)
-- ``~/.bashrc`` must not print anything on the terminal. This could screw up sftp for example.
-- ``~/.bash_profile`` should just load .profile and .bashrc (in that order)
-- Make sure that ``~/.bash_login`` does *not* exist.
-
-See:
-
-* https://superuser.com/questions/789448/choosing-between-bashrc-profile-bash-profile-etc
-* https://stackoverflow.com/questions/902946/about-bash-profile-bashrc-and-where-should-alias-be-written-in
-* http://mywiki.wooledge.org/DotFiles
-
-
-
-Jump directly to directories
-----------------------------
-
-
-Using symbolic links
-~~~~~~~~~~~~~~~~~~~~
+Jump directly to directories with symbolic links
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use `ln -s` to create shortcuts to folders that you quickly need to access.
 
@@ -313,18 +247,6 @@ And add the following lines to ``~/.bashrc``::
     fi
 
   
-find files interactively
-------------------------
-
-Install the fuzzy file finder ``fzf``
-
-    sudo apt install fzf
-
-Then, the command ``fzf`` will let you explore the files in the working directory interactively
-
-Later, we describe tools to find files (find, fdfind, grep, ack, ag).
-
-
 
 Open a file from the command line
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -334,10 +256,211 @@ Open a file from the command line
    xdg-open file
 
 
+Preventing a job from being killed when the terminal is closed
+--------------------------------------------------------------
 
+To prevent `cmd` from hanging up:
+
+::
    
-Kill a program that is no longer responsive
--------------------------------------------
+   nohup cmd &
+
+
+A better alternative is to use ``tmux`` (see https://www.redhat.com/en/blog/introduction-tmux-linux)
+   
+
+
+Running jobs in parallel
+------------------------
+
+You can launch commands in background by appending a ``&``  sign at the end of the command line::
+
+  gedit &
+
+(Note if a command is already running, blocking the terminal, you use ``Ctrl-Z`` and then the built-in command ``bg`` to put the process in background)
+
+
+You can use this to launch several processes in parallel.
+
+Consider the following shell script ``test.sh`` that just print its arguments and sleeps for 5s::
+
+  #! /usr/bin/bash
+  echo "Args: $@"
+  sleep 5s
+  echo "Done"
+
+Set the execute flag::
+
+  chmod +x test.sh
+
+  
+You can launch 5 instances of it with a ``for loop``::
+  
+  for i in $( seq 1 5 ); do (./test.sh $i &); done
+
+If you want to , to avoid mangling the standard output, you can save the output of each process in a different file:
+
+::
+
+  for i in $( seq 1 5 ); do (./test.sh $i >test_${i}.out.txt &); done
+
+To run each command in a different terminal (you may need to install ``xterm``)::
+
+  for i in $( seq 1 5); do (xterm -hold -title "Process $i" -e ./test.sh $i &); done
+
+
+The ``xargs`` and  ``parallel``  commands  also allows one to launch the same command in parallel with different parameters::
+
+  seq 1 5 | xargs -P 5 -n 1 ./test.sh
+
+  parallel ./test.sh ::: $( seq 1 5 )
+
+To know more, read their documentations...
+
+
+Shell scripts
+-------------
+
+If you happen to often type the same series of commands, it is a good
+idea to create a script, that is, basically, a text file gathering the
+sequence of commands to be executed. Then, you will just have to type
+the filename of this script to execute all the commands.
+
+If it does not exist yet, create a ``bin`` directory in your home
+folder:
+
+::
+
+   mkdir $HOME/bin.
+
+Use a text editor to create a file ``myscript`` in this directory, and
+enter the following on the first line:
+
+::
+
+   #! /bin/bash
+
+Then type the series of commands (one per line) you want to be executed.
+
+Save the file ``myscript`` and enter the commands:
+
+::
+
+   chmod +x ~/bin/myscript
+   PATH="$HOME/bin:$PATH"
+
+You can now type ``myscript`` on the command line to execute the series
+of commands.
+
+To go further, you should learn how to use arguments to scripts.
+
+Note that you write scripts in other languages than bash, e.g. python.
+
+Startup scripts: .profile, .bashrc, .bash_profile
+-------------------------------------------------
+
+``~/.bash_profile``, ``~/.profile``, ``.bashrc`` are scripts that are
+executed automatically when you start a shell. This allows you to set up
+your environment (e.g. the PATH, the Prompt, create aliases for common operations, ...)
+
+There are four types of shells:
+
+- login shells and non-login shells.
+
+- interactive and non-interactive shells 
+
+If you connect to a remote computer with ``ssh remote``, you get an *interactive login* shell.
+
+If you execute a command on a remote computer with ``ssh remote command``, the script or the command is executed in a *login non-interactive* shell.
+
+If you are already log in, that is, you have open a session, and open a new terminal, you get an *interactive non-login* shell.
+
+If you execute a bash script,  it is launched in a *non-interactive, non-login* shell.
+
+
+Login shells execute ``~/.profile`` and ``~/.bash_profile``.
+
+Non-login shells only execute ``~/.bashrc``, not ``~/.profile`` nor
+``~/.bash_profile``
+
+Anything that should be available to graphical applications OR to ``sh`` (or
+``bash`` invoked as ``sh``) MUST be in ``~/.profile``, not ``.bashrc`` (If you launch a graphical application not from the terminal, it only knows about the environment that was created at login. In particular, it will not know about stuff in ``.bashrc``)
+.
+
+- ``~/.profile`` has the stuff NOT specifically related to bash, such
+   as environment variables (PATH and friends)
+- Anything that should be available only to login shells should go in ``~/.profile``
+- ``~/.bashrc`` has anything you’d want at an interactive command line (Command prompt, EDITOR variable, bash aliases)
+- ``~/.bashrc`` must not print anything on the terminal. This could screw up sftp for example.
+- ``~/.bash_profile`` should just load .profile and .bashrc (in that order)
+- Make sure that ``~/.bash_login`` does *not* exist.
+
+See:
+
+* https://superuser.com/questions/789448/choosing-between-bashrc-profile-bash-profile-etc
+* https://stackoverflow.com/questions/902946/about-bash-profile-bashrc-and-where-should-alias-be-written-in
+* http://mywiki.wooledge.org/DotFiles
+
+
+
+
+Power on/off
+------------
+
+Remote power off
+~~~~~~~~~~~~~~~~
+
+Powering off is easy, just type::
+
+   sudo shutdown
+
+You my want to specify a delay::
+
+   sudo shutdown --halt +1  # one minute delay
+
+You can cancel the shutdown during the delay with::
+
+   sudo shutdown -c
+
+ If you want to reboot the system::
+
+   sudo shutdown -r now
+
+Remote power on (wake on lan)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your workstation is switched off, but you can log to another linux computer on the same local area network, you might be able to power it on if you have authorized *Wake on lan (WOL)* in your station's BIOS parameters.  
+
+First, you need to know the MAC address of your computer's network interface (using ``ip a`` when the computer was on).
+
+Say the MAC address is "c8:f7:50:bc:ea:f5", then the command::
+   
+    wakeonlan c8:f7:50:bc:ea:f5
+    
+launched on the terminal of another computer will power on your computer.
+
+See http://doc.ubuntu-fr.org/wakeonlan
+
+
+When the system is no longer responsive
+---------------------------------------
+
+You can try to:
+* connect remotely from another computer, using ``ssh``
+* Open a new console with ``Ctrl-Alt-Fx`` (x between 1 and 9)
+
+From there, you might be able to shutdown the computer::
+
+   sudo shutdown now
+
+Alternatively, press ``Alt+PrintScr``, and, keeping this key pressed,
+type, slowly, ``reisub``. This mysterious sequence is explained at
+https://linuxconfig.org/how-to-enable-all-sysrq-functions-on-linux#h6-the-sysrq-magic-key
+or https://en.wikipedia.org/wiki/Magic_SysRq_key
+
+
+Kill programs that do not respond
+---------------------------------
 
 It may happen that a program monopolizes most of the CPU, but does not
 longer respond to input. Such a program is crashed and should be
@@ -377,42 +500,6 @@ It the keyboard does not repond anymore, before switching off the
 computer, you can try to connect from another computer on the same
 network using ``ssh`` and to kill the applications or do a proper
 shutdown (typing ‘halt’ on the command line).
-
-
-Remote power off
-----------------
-
-Powering off is easy, just type::
-
-   sudo shutdown
-
-You my want to specify a delay::
-
-   sudo shutdown --halt +1  # one minute delay
-
-You can cancel the shutdown during the delay with::
-
-   sudo shutdown -c
-
- If you want to reboot the system::
-
-   sudo shutdown -r now
-
-Remote power on
----------------
-  
-If your workstation is switched off, but you can log to another linux computer on the same local area network, you might be able to power it on if you have authorized *Wake on lan (WOL)* in your station's BIOS parameters.  
-
-First, you need to know the MAC address of your computer's network interface (using ``ip a`` when the computer was on).
-
-Say the MAC address is "c8:f7:50:bc:ea:f5", then the command::
-   
-    wakeonlan c8:f7:50:bc:ea:f5
-    
-launched on the terminal of another computer will power on your computer.
-
-See http://doc.ubuntu-fr.org/wakeonlan
-
 
 
 Printing
@@ -480,37 +567,6 @@ http://localhost:631
 Check out `Linux 101: Manage printers and
 printing <https://developer.ibm.com/tutorials/l-lpic1-108-4/>`__ for
 more information.
-
-Encrypt/Decrypt files using GPG
--------------------------------
-
-To use a one-time password:
-
-To encrypt ``file.txt``::
-  
-    gpg --symmetric file.txt   # this will create file.txt.gpg
-    rm file.txt                # do not forget to remove the unencrypted file
-
-
-To decrypt it::
-
-    gpg -o file.txt --decrypt file.txt.gpg
-    
-Note that it is also possible to use gpg to generate a private/public key pair to sign documents (see https://tutonics.com/2012/11/gpg-encryption-guide-part-1.html )
-
-
-
-Configure Multiple Displays
----------------------------
-
-Use the programs ``xranrd`` and ``arandr``
-
-::
-
-     arandr
-     xrandr --output eDP1 --rotate left
-
-If you have a nvidia graphics card, you can also use ``nvidia-settings``
 
 
 Find other computers on the local area network
@@ -720,12 +776,13 @@ potential attackers.
 
 
 
-
+Internet
+--------
 
 DNS
----
+~~~
 
-To konw the dns servers you are using::
+To know the dns servers you are using::
 
     resolvectl
 
@@ -738,8 +795,8 @@ To find the name associated to an IP (reverse lookup)::
 
   dig -x XX.XX.XX.XX
 
-Internet Route tables
----------------------
+Routing tables
+~~~~~~~~~~~~~~
 
 ::
   
@@ -754,7 +811,7 @@ or::
     route -l
 
 traceroute
-----------
+~~~~~~~~~~
 
 ::
 
@@ -764,64 +821,6 @@ or::
 
    mtr
 
-Preventing a job from beging killed when one closes the terminal
-----------------------------------------------------------------
-
-::
-   
-   nohup cmd &
-
-
-See also ``tmux``
-   
-
-
-Running jobs in parallel
-------------------------
-
-You cand launch commands in background by appending a ``&``  sign at the end of the command line::
-
-  gedit &
-
-(Note if a command is already running, blocking the terminal, you use ``Ctrl-Z`` and then the built-in command ``bg`` to put the process in background)
-
-
-You can use this to launch several processes in parallel.
-
-Consider the following shell script ``test.sh`` that just print its arguments and sleeps for 5s::
-
-  #! /usr/bin/bash
-  echo "Args: $@"
-  sleep 5s
-  echo "Done"
-
-Set the executre flag::
-
-  chmod +x test.sh
-
-  
-You can launch 5 instances of it with a ``for loop``::
-  
-  for i in $( seq 1 5 ); do (./test.sh $i &); done
-
-If you want to , to avoid mangling the standard output, you can save the output of each process in a different file:
-
-::
-
-  for i in $( seq 1 5 ); do (./test.sh $i >test_${i}.out.txt &); done
-
-To run each command in a different terminal (you may need to install ``xterm``)::
-
-  for i in $( seq 1 5); do (xterm -hold -title "Process $i" -e ./test.sh $i &); done
-
-
-The ``xargs`` and  ``parallel``  commands  also allows one to launch the same command in parallel with different parameters::
-
-  seq 1 5 | xargs -P 5 -n 1 ./test.sh
-
-  parallel ./test.sh ::: $( seq 1 5 )
-
-To know more, read their documentations...
 
 
 Get information about the system
@@ -1228,6 +1227,19 @@ Update firmware
 Users
 -----
 
+
+Add a new user
+~~~~~~~~~~~~~~
+
+
+On a Debian derived systems, such as Ubuntu, there are interactive commands `adduser` and `addgroup`. To create a new user::
+
+   sudo adduser login
+
+
+For non-interactive user creation, see `useradd`.
+   
+
 Who am I?
 ~~~~~~~~~
 
@@ -1242,10 +1254,9 @@ Note that your login name and home directory are stored in the
 environment variables ``LOGNAME`` and ``HOME``.
 
 Each login is associated to a UserID (UID), an integer, and to a list of
-GroupIDs (GUID). You can list the information associate to the current
-login:
+GroupIDs (GUID). You can list the information associated to the current
+login with `id`::
 
-::
 
    id
 
@@ -1780,6 +1791,17 @@ Read the manual::
 
    man plocate
 
+find files interactively
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install the fuzzy file finder ``fzf``
+
+    sudo apt install fzf
+
+Then, the command ``fzf`` will let you explore the files in the working directory interactively
+
+Later, we describe tools to find files (find, fdfind, grep, ack, ag).
+
 
 Search files by content
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1921,6 +1943,39 @@ It can be set up to automatically start so that you just have to plug
 your backup hardrive to performe a backup. Check out
 http://backintime.readthedocs.io.
 
+Encrypt/Decrypt files using GPG
+-------------------------------
+
+To use a one-time password:
+
+To encrypt ``file.txt``::
+  
+    gpg --symmetric file.txt   # this will create file.txt.gpg
+    rm file.txt                # do not forget to remove the unencrypted file
+
+
+To decrypt it::
+
+    gpg -o file.txt --decrypt file.txt.gpg
+    
+Note that it is also possible to use gpg to generate a private/public key pair to sign documents (see https://tutonics.com/2012/11/gpg-encryption-guide-part-1.html )
+
+
+
+Configure Multiple Displays
+---------------------------
+
+Use the programs ``xranrd`` and ``arandr``
+
+::
+
+     arandr
+     xrandr --output eDP1 --rotate left
+
+If you have a nvidia graphics card, you can also use ``nvidia-settings``
+
+
+
 Web
 ---
 
@@ -1934,7 +1989,7 @@ Aspire pages from web sites
 
    curl  address
 
-Transfere files betwee computers
+Transfer files between computers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -2001,6 +2056,9 @@ Create a copy of a local git repository on github.com
 
    git push --mirror git@github.com:username/project.git
 
+
+
+
 Disable the Touchpad while typing
 ---------------------------------
 
@@ -2017,20 +2075,6 @@ Unfreeze the mouse
    sudo rmmod psmouse
    sudo modprobe psmouse
 
-The system is not responding
-----------------------------
-
-Try ``Ctrl-Alt-F1`` to open a terminal. From there, you might be able to
-do:
-
-::
-
-   sudo shutdown now
-
-Alternatively, press ``Alt+PrintScr``, and, keeping this key pressed,
-type, slowly, ``reisub``. This mysterious sequence is explained at
-https://linuxconfig.org/how-to-enable-all-sysrq-functions-on-linux#h6-the-sysrq-magic-key
-or https://en.wikipedia.org/wiki/Magic_SysRq_key
 
 change the brightness of the display
 ------------------------------------

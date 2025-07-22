@@ -459,6 +459,14 @@ https://linuxconfig.org/how-to-enable-all-sysrq-functions-on-linux#h6-the-sysrq-
 or https://en.wikipedia.org/wiki/Magic_SysRq_key
 
 
+List processes that "eats" CPU
+------------------------------
+
+::
+
+   ps -Ao user,pcpu,cmd --sort=-pcpu | head -n 10
+
+
 Kill programs that do not respond
 ---------------------------------
 
@@ -1056,23 +1064,41 @@ Display detailed hardware information
    inxi -b
    
 
-Monitor temperatures
-~~~~~~~~~~~~~~~~~~~~
+Monitor CPUs
+~~~~~~~~~~~~
 
 ::
+   
+   btop
 
-   sudo apt install lm-sensors hddtemp
+displays CPU usage (in %) and temperatures.
+   
+To specically monitor the CPUs frequencies:
+
+::
+   
+   watch "lscpu -e"
+
+
+You can obtain information about fans and temperatures with the ``sensors`` command.
+   
+::
+
+   sudo apt install lm-sensors
    sudo sensors-detect
    sensors
+   sensors | grep fan   # to monitor only the fans
 
-You can then install ``psensor`` to have a GUI monitoring the
-temperatures:
+
+   
+If you like GUI, you can then install ``psensor``.
 
 ::
 
    sudo apt install psensor
    psensor
 
+   
 Monitor the performance of your computer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

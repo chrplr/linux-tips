@@ -459,6 +459,30 @@ https://linuxconfig.org/how-to-enable-all-sysrq-functions-on-linux#h6-the-sysrq-
 or https://en.wikipedia.org/wiki/Magic_SysRq_key
 
 
+Use nvidia GPU on a prime system
+--------------------------------
+
+To check if GPU selection works. Run the following command. It should print the name of your nvidia GPU.
+
+::
+
+   prime-select on-demand   # if not alerady set
+   __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxinfo | grep "OpenGL renderer"
+
+
+
+
+Then, in the terminal where you want the application to use the nvidia card, you can type:
+
+::
+
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
+
+
+
+
 List processes that "eats" CPU
 ------------------------------
 
@@ -466,6 +490,7 @@ List processes that "eats" CPU
 
    ps -Ao user,pcpu,cmd --sort=-pcpu | head -n 10
 
+See also top, htop, btop, glances
 
 Kill programs that do not respond
 ---------------------------------
